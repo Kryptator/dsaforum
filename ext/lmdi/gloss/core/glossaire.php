@@ -87,8 +87,8 @@ class glossaire
 		$str_elinks = $this->user->lang['GLOSS_ELINKS'];
 
 		$corps  = '<table class="deg"><tr class="deg">';
-		$corps .= '<th class="deg0">' . $str_terme . '</th>';
-				$corps .= '<th class="deg0">' . $str_variants . '</th>';
+		$corps .= '<th class="deg0">' . $str_variants . '</th>';
+		$corps .= '<th class="deg0">' . $str_terme . '</th>';		
 		$corps .= '<th class="deg0">' . $str_defin . '</th>';
 
 		
@@ -121,12 +121,6 @@ class glossaire
 				$label  = $arow['label'];
 				$pict   = $arow['picture'];
 				$corps .= "\n<tr class='deg'>";
-				$corps .= "<td class='deg0' id=\"$code\"><b>$term</b>";
-				if (strlen ($cat))
-				{
-					$corps .= "<br>$cat";
-				}
-				$corps .= "</td>";
 				$corps .= "<td class='deg0'>";
 				if (strlen ($variants))
 				{
@@ -136,6 +130,13 @@ class glossaire
 				{
 					$corps .= "&nbsp;</td>";
 				}
+				$corps .= "<td class='deg0' id=\"$code\"><b>$term</b>";
+				if (strlen ($cat))
+				{
+					$corps .= "<br>$cat";
+				}
+				$corps .= "</td>";
+				
 				$corps .= "<td class='deg0'>$desc";
 				if (strlen ($ilinks))
 				{
@@ -196,9 +197,8 @@ class glossaire
 		));
 		$this->template->assign_vars (array (
 			'TITLE'		=> $titre,
-			'VARIANTS'		=> $titre,
 			'ABC'		=> $abc_links,
-			'ILLUST'		=> $illustration,
+			'ILLUST'		=> "",
 			'CORPS'		=> $corps,
 			'BIBLIO'		=> $biblio,
 		));

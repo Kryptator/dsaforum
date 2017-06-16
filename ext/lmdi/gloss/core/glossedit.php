@@ -380,7 +380,7 @@ class glossedit
 
 				$corps = "<table class=\"deg\"><tr class=\"deg\">";
 				$corps .= "<th class=\"deg0\">$str_terme</th>";
-				$corps .= "<th class=\"deg0\">$str_variants</th>";
+				
 				$corps .= "<th class=\"deg0\">$str_defin</th>";
 				//$corps .= "<th class=\"deg1\">$str_illus</th>";
 				$corps .= "<th class=\"deg1\">$str_edit</th></tr>";
@@ -411,6 +411,8 @@ class glossedit
 						$label = $arow['label'];
 						$pict  = $arow['picture'];
 						$corps .= "\n<tr class=\"deg\">";
+						$corps .= "<td class=\"deg0\">$variants";
+						$corps .= "</td>";
 						$corps .= "<td class=\"deg0\" id=\"$code\"><b>$term</b>";
 						if (strlen($cat))
 						{
@@ -418,8 +420,7 @@ class glossedit
 						}
 						$corps .= "<br>$code";
 						$corps .= "</td>";
-						$corps .= "<td class=\"deg0\">$variants";
-						$corps .= "</td>";
+					
 						$corps .= "<td class=\"deg0\">$desc";
 						if (strlen($ilinks))
 						{
