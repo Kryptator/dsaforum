@@ -382,10 +382,15 @@ if ($cat && $total_downloads)
 		$thumbnail = DL_EXT_THUMBS_WEB_FOLDER . str_replace(" ", "%20", $thumbnail_name);
 		
 		$long_desc = $dl_files[$i]['long_desc'];
+
 		$long_desc = censor_text($long_desc);
 		$long_desc = generate_text_for_display($long_desc, $long_desc_uid, $long_desc_bitfield, $long_desc_flags);
+	
+		
+		$long_desc = strip_tags($long_desc, '<br><br/>');
 		if (intval($this->config['dl_limit_desc_on_index']) && strlen($long_desc) > intval($this->config['dl_limit_desc_on_index']))
 		{
+			
 			$long_desc = substr($long_desc, 0, intval($this->config['dl_limit_desc_on_index'])) . ' [...]';
 		}
 
