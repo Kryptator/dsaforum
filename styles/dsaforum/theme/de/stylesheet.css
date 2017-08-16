@@ -1,0 +1,14 @@
+/* Online image */
+.online .postprofile { 
+/* background-image: url("./icon_user_online.gif"); */
+background-image: none;
+}
+
+
+@media (max-width: 700px) {
+	.online .postprofile {
+		/* background-image: url("./icon_user_online_mobile.png"); */
+		background-image: none;
+		background-position: 100%;
+	}
+}
