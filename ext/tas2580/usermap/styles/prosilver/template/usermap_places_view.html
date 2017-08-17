@@ -1,0 +1,85 @@
+<!-- INCLUDE overall_header.html -->
+<div>
+	<h2 class="posting-title">{PLACE_TITLE}</h2>
+
+	<div class="post has-profile bg1">
+		<div class="inner">
+			<dl class="postprofile">
+				<dd><div id="map" class="ucp_map"></div></dd>
+
+				<dd><strong>{L_DISTANCE}{L_COLON}</strong> {DISTANCE}</dd>
+				<dd><strong>{L_LON}{L_COLON}</strong> {USERMAP_LON}</dd>
+				<dd><strong>{L_LAT}{L_COLON}</strong> {USERMAP_LAT}</dd>
+			</dl>
+			<div class="postbody">
+
+			<!-- IF S_EDIT or S_DELETE -->
+			<ul class="post-buttons">
+				<!-- IF S_EDIT -->
+				<li>
+					<a href="{U_EDIT}" title="{L_EDIT}" class="button icon-button edit-icon"><i class="icon fa-pencil fa-fw" aria-hidden="true"></i><span>{L_EDIT}</span></a>
+				</li>
+				<!-- ENDIF -->
+				<!-- IF S_DELETE -->
+				<li>
+					<a href="{U_DELETE}" title="{L_DELETE}" class="button icon-button delete-icon"><i class="icon fa-times fa-fw" aria-hidden="true"></i><span>{L_DELETE}</span></a>
+				</li>
+				<!-- ENDIF -->
+			</ul>
+			<!-- ENDIF -->
+
+			<div class="content">
+			{PLACE_TEXT}
+			</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- IF A_COMMENT -->
+<a href="{U_COMMENT}" class="button icon-button reply-icon" title="{L_ADD_COMMENT}">{L_ADD_COMMENT}</a>
+<!-- ENDIF -->
+
+<!-- IF .comments -->
+<h2>{L_COMMENTS}</h2>
+<!-- BEGIN comments -->
+<div id="p143" class="post has-profile <!-- IF comments.S_ROW_COUNT is even -->bg1<!-- ELSE -->bg2<!-- ENDIF -->">
+	<div class="inner">
+		<dl class="postprofile">
+			<dt class="has-profile-rank has-avatar">
+				<div class="avatar-container">{comments.AVATAR}</div>
+				{comments.USERNAME}
+			</dt>
+			<dd class="profile-rank">{comments.RANK}</dd>
+		</dl>
+		<div class="postbody">
+			<h3>{comments.COMMENT_TITLE}</h3>
+			<!-- IF S_EDIT_COMMENT || S_DELETE_COMMENT -->
+			<ul class="post-buttons">
+				<!-- IF S_EDIT_COMMENT -->
+				<li>
+					<a href="{comments.U_EDIT}" title="{L_EDIT}" class="button icon-button edit-icon"><i class="icon fa-pencil fa-fw" aria-hidden="true"></i><span>{L_EDIT}</span></a>
+				</li>
+				<!-- ENDIF -->
+				<!-- IF S_DELETE_COMMENT -->
+				<li>
+					<a href="{comments.U_DELETE}" title="{L_DELETE}" class="button icon-button delete-icon"><i class="icon fa-times fa-fw" aria-hidden="true"></i><span>{L_DELETE}</span></a>
+				</li>
+				<!-- ENDIF -->
+			</ul>
+			<!-- ENDIF -->
+			<div class="content">
+				{comments.COMMENT_TEXT}
+			</div>
+		</div>
+
+	</div>
+</div>
+<!-- END comments -->
+<!-- IF A_COMMENT -->
+<a href="{U_COMMENT}" class="button icon-button reply-icon" title="{L_ADD_COMMENT}">{L_ADD_COMMENT}</a>
+<!-- ENDIF -->
+<!-- ENDIF -->
+
+<p class="jumpbox-return"><a href="{U_USERMAP}" class="left-box arrow-left" accesskey="r">{L_BACK_TO_USERMAP}</a></p>
+<br>
+<!-- INCLUDE overall_footer.html -->
