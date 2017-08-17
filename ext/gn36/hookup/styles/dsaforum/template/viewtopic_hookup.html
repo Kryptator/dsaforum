@@ -1,0 +1,346 @@
+<div style="clear:both"></div>
+<!-- IF S_ACTIVE_DATE -->
+<div class="panel" id="hookup-active-date">
+	<h2><b>{L_ACTIVE_DATE}{L_COLON}</b> {ACTIVE_DATE_DATE}</h2>
+	<!-- IF S_IS_HOOKUP_OWNER --><a class="genmed" href="{U_UNSET_ACTIVE}">{L_UNSET_ACTIVE}</a> | <!-- ENDIF --><a class="genmed" id="show-all-dates-link" data-lshow="{L_SHOW_ALL_DATES}" data-lhide="{L_HIDE_ALL_DATES}" href="#" onclick="toggle_hookup_table()">{L_SHOW_ALL_DATES}</a>
+
+</div>
+<!-- ENDIF -->
+
+<div id="tabs-boundary">
+<div id="tabs" class="tabs sub-panels" role="tablist" data-show-panel="overview-panel">
+	<ul>
+		<li id="overview-panel-tab" class="tab activetab"><a href="#tabs" aria-controls="overview-panel" role="tab" data-subpanel="overview-panel"><span>{L_HOOKUP_OVERVIEW}</span></a></li>
+		<!-- IF S_IS_HOOKUP_OWNER or S_IS_HOOKUP_MEMBER -->
+		<li id="add-date-panel-tab" class="tab"><a href="#tabs" aria-controls="add-date-panel" role="tab" data-subpanel="add-date-panel"><span>{L_HOOKUP_ADD_DATES}</span></a></li>
+		<!-- ENDIF -->
+		<!-- IF S_IS_SELF_INVITE and not S_IS_HOOKUP_OWNER -->
+		<li id="self-invite-panel-tab" class="tab"><a href="#tabs" aria-controls="self-invite-panel" role="tab" data-subpanel="self-invite-panel"><span><!-- IF not S_IS_HOOKUP_MEMBER -->{L_HOOKUP_INVITE_SELF}<!-- ELSE -->{L_HOOKUP_INVITE_SELF_LEAVE}<!-- ENDIF --></span></a></li>
+		<!-- ENDIF -->
+		<!-- IF S_IS_HOOKUP_OWNER -->
+		<li id="add-user-panel-tab" class="tab"><a href="#tabs" aria-controls="add-user-panel" role="tab" data-subpanel="add-user-panel"><span>{L_HOOKUP_ADD_USERS}</span></a></li>
+		<li id="add-group-panel-tab" class="tab"><a href="#tabs" aria-controls="add-group-panel" role="tab" data-subpanel="add-group-panel"><span>{L_HOOKUP_ADD_GROUPS}</span></a></li>
+		<li id="delete-panel-tab" class="tab"><a href="#tabs" aria-controls="delete-panel" role="tab" data-subpanel="delete-panel"><span>{L_DELETE}</span></a></li>
+		<!-- ENDIF -->
+	</ul>
+</div>
+
+<div class="panel bg3" id="overview-panel">
+	<h2>{L_HOOKUP}</h2>
+	<p class="author">{L_HOOKUP_DESC}</p>
+	
+	<!-- IF HOOKUP_ERRORS -->
+	<div id="hookup-error-box">
+		{HOOKUP_ERRORS}
+	</div>
+	<!-- ENDIF -->
+	
+	<!-- IF S_AUTORESET -->
+	<h3>{L_HOOKUP_AUTORESET}</h3>
+	<p class="hookup-autoreset-notify">{L_HOOKUP_AUTORESET_ACTIVE_DESC}</p>
+	<!-- ENDIF -->
+	
+	<!-- IF S_HAS_DATES or S_HAS_USERS -->
+	<form method="post" action="{S_HOOKUP_ACTION}" id="hookupform">
+	<div id="hookup-table">
+		<div id="hookup-table-scrollwrapper">
+		<table class="table1" cellspacing="0" cellpadding="4">
+			<thead>
+				<tr>
+					<th>&nbsp;</th>
+					<!-- BEGIN date -->
+					<th<!-- IF date.S_IS_ACTIVE --> class="activedate"<!-- ENDIF --> style="white-space: nowrap" title="{date.FULL_DATE}">{date.DATE}</th>
+					<!-- END date -->
+				</tr>
+			</thead>
+			<tbody>
+				<!-- BEGIN user -->
+				<tr <!-- IF !user.IS_SELF -->class="hookup_hidemobile"<!-- ENDIF -->>
+					<td>{user.USERNAME_FULL}<!-- IF user.COMMENT --> <span class="comment"><img src="{S_EXT_PATH}styles/dsaforum/theme/images/icon_comment.gif" alt="Comment" /><span>{user.COMMENT}</span></span><!-- ENDIF --></td>
+					<!-- IF user.IS_SELF -->
+						<!-- DEFINE $USER_IS_IN_LIST = 1 -->
+						<!-- DEFINE $USER_COMMENT = '{user.COMMENT}' -->
+						<!-- BEGIN date -->
+						<td class="<!-- IF date.S_IS_ACTIVE -->activedate <!-- ENDIF --><!-- IF user.date.STATUS_YES -->yes-bg<!-- ELSEIF user.date.STATUS_MAYBE -->maybe-bg<!-- ELSEIF user.date.STATUS_NO -->no-bg<!-- ELSE -->unset-bg<!-- ENDIF -->" style="color: black;">
+							<select name="{user.date.S_SELECT_NAME}" class="<!-- IF user.date.STATUS_YES -->yes-bg<!-- ELSEIF user.date.STATUS_MAYBE -->maybe-bg<!-- ELSEIF user.date.STATUS_NO -->no-bg<!-- ELSE -->unset-bg<!-- ENDIF -->">
+							<option class="unset-bg" value="{HOOKUP_UNSET}" <!-- IF user.date.STATUS_UNSET -->selected="selected"<!-- ENDIF -->>{L_HOOKUP_UNSET}</option>
+							<option class="yes-bg" value="{HOOKUP_YES}" <!-- IF user.date.STATUS_YES -->selected="selected"<!-- ENDIF -->>{L_HOOKUP_YES}</option>
+							<option class="maybe-bg" value="{HOOKUP_MAYBE}" <!-- IF user.date.STATUS_MAYBE -->selected="selected"<!-- ENDIF -->>{L_HOOKUP_MAYBE}</option>
+							<option class="no-bg" value="{HOOKUP_NO}" <!-- IF user.date.STATUS_NO -->selected="selected"<!-- ENDIF -->>{L_HOOKUP_NO}</option>
+							</select>
+						</td>
+						<!-- END date -->
+					<!-- ELSE -->
+						<!-- BEGIN date -->
+							<td class="<!-- IF date.S_IS_ACTIVE -->activedate <!-- ENDIF --><!-- IF user.date.STATUS_YES -->yes-bg<!-- ELSEIF user.date.STATUS_MAYBE -->maybe-bg<!-- ELSEIF user.date.STATUS_NO -->no-bg<!-- ELSE -->unset-bg<!-- ENDIF -->" style="color: black;">
+								{user.date.AVAILABLE}
+							</td>
+						<!-- END date -->
+					<!-- ENDIF -->
+				</tr>
+				<!-- END user -->
+				
+				
+				<tr style="border-bottom: 3px double black;">
+					<td class="spacerow"></td>
+					
+					<!-- BEGIN date -->
+					<td<!-- IF date.S_IS_ACTIVE --> class="spacerow activedate"<!-- ELSE --> class="spacerow"<!-- ENDIF -->></td>
+					<!-- END date -->
+				</tr>
+				
+				<tr>
+					<td>{L_SUM}{L_COLON}</td>
+					<!-- BEGIN date -->
+						<td <!-- IF date.S_IS_ACTIVE -->class="activedate"<!-- ENDIF --> title="{date.DATE}{L_COLON} {date.YES_COUNT} {L_HOOKUP_YES}, {date.MAYBE_COUNT} {L_HOOKUP_MAYBE}, {date.NO_COUNT} {L_HOOKUP_NO}, {date.UNSET_COUNT} {L_HOOKUP_UNSET}">
+						<div class="summary-box">
+							<!-- IF date.YES_PERCENT > 0 --><div class="summary yes-bg" style="width:{date.YES_PERCENT}%;">{date.YES_COUNT}</div><!-- ENDIF -->
+							<!-- IF date.MAYBE_PERCENT > 0 --><div class="summary maybe-bg" style="width:{date.MAYBE_PERCENT}%;">{date.MAYBE_COUNT}</div><!-- ENDIF -->
+							<!-- IF date.NO_PERCENT > 0 --><div class="summary no-bg" style="width:{date.NO_PERCENT}%;">{date.NO_COUNT}</div><!-- ENDIF -->
+							<!-- IF date.UNSET_PERCENT > 0 --><div class="summary unset-bg" style="width:{date.UNSET_PERCENT}%;">{date.UNSET_COUNT}</div><!-- ENDIF -->
+						</div>
+						</td>
+					<!-- END date -->
+				</tr>
+				
+				<!-- IF S_IS_HOOKUP_OWNER -->
+				<tr>
+					<td>&nbsp;</td>
+					
+					<!-- BEGIN date -->
+					<!-- IF date.S_IS_ACTIVE -->
+						<td class="activedate activedate_bottom"><b>{L_ACTIVE_DATE}</b></td>
+					<!-- ELSE -->
+						<td><a href="{date.U_SET_ACTIVE}" class="gen" title="{L_SET_ACTIVE_EXPLAIN}">{L_SET_ACTIVE}</a></td>
+					<!-- ENDIF -->
+					<!-- END date -->
+				</tr>
+				<!-- ENDIF -->
+			</tbody>
+		</table>
+		</div><!--scrollwrapper ende-->
+		<!-- IF S_IS_HOOKUP_MEMBER -->
+		<fieldset>
+			<dl>
+				<dt>
+					<label for="comment">{L_COMMENT}{L_COLON}</label>
+					<br />
+					<span>{L_COMMENT_EXPLAIN}</span>
+				</dt>
+				<dd>
+					<input type="text" name="comment" class="inputbox" value="{USER_COMMENT}" />
+				</dd>
+			</dl>
+			<input class="button1" type="submit" name="post" value="{L_SUBMIT}" />
+		</fieldset>
+		<!-- ENDIF -->
+	</div>
+	</form>
+	<!-- ENDIF -->
+	<!-- IF not S_IS_HOOKUP_MEMBER and S_IS_SELF_INVITE -->
+		<h3>{L_HOOKUP_INVITE_SELF}</h3>
+		<fieldset class="fields2">
+			<form method="post" action="{S_HOOKUP_ACTION}">
+			<input type="hidden" name="invite_self" value="join"/>
+			<p>{L_HOOKUP_INVITE_SELF_EXPLAIN}</p>
+			<input class="button1" type="submit" name="post" value="{L_HOOKUP_INVITE_SELF_DESC}" /><br />
+			
+			</form>
+		</fieldset>
+	<!-- ENDIF -->
+	
+</div>
+
+<!-- IF S_IS_HOOKUP_OWNER or S_IS_HOOKUP_MEMBER -->
+<div class="panel bg3" id="add-date-panel">
+
+	<p>{L_HOOKUP_ADD_DATES_EXPLAIN}</p>
+	
+	<fieldset class="fields2">
+
+		<form method="post" action="{S_HOOKUP_ACTION}" id="hookup_date">
+		<p>
+			<label for="add_date" class="gen">{L_HOOKUP_ADD_DATES}{L_COLON}</label><br />
+			<textarea class="inputbox autowidth" cols="30" rows="5" name="add_date" id="add_date"></textarea>
+		</p>
+		<fieldset>
+			<input class="button2" type="button" id="add_date_button" data-lshow="{L_OPEN_CALENDAR}" data-lhide="{L_CLOSE_CALENDAR}" value="{L_OPEN_CALENDAR}"/>
+			<input class="button1" type="submit" name="post" value="{L_SUBMIT}" />
+		</fieldset>
+
+		<!-- INCLUDEJS {S_EXT_PATH}vendor/moment/moment/min/moment.min.js -->
+		<!-- INCLUDEJS {S_EXT_PATH}vendor/eonasdan/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js -->
+		<!-- INCLUDEJS {S_EXT_PATH}styles/prosilver/template/cal-settings.js -->
+		
+		
+		<div class="form-group">
+	        <div class="row">
+	            <div class="col-md-8">
+	                <div id="hookup_datetimepicker" data-localepath="{S_EXT_PATH}vendor/moment/moment/locale/{LA_LOCALE}.js" data-locale="{LA_LOCALE}" data-lang_add="{LA_ADD}"></div>
+	            </div>
+	        </div>
+	    </div>
+		    
+		
+		</form>
+	</fieldset>
+
+</div>
+<!-- ENDIF -->
+
+<!-- IF S_IS_SELF_INVITE and not S_IS_HOOKUP_OWNER -->
+<div class="panel bg3" id="self-invite-panel">
+	
+
+	<!-- IF S_USER_LOGGED_IN and not S_IS_HOOKUP_MEMBER-->
+		<p>{L_HOOKUP_INVITE_SELF_EXPLAIN}</p>
+		
+		<fieldset class="fields2">
+			<form method="post" action="{S_HOOKUP_ACTION}">
+			<input type="hidden" name="invite_self" value="join"/>
+			<input class="button1" type="submit" name="post" value="{L_HOOKUP_INVITE_SELF}" /><br />
+			{L_HOOKUP_INVITE_SELF_DESC}
+			</form>
+		</fieldset>
+	<!-- ELSEIF S_USER_LOGGED_IN and S_IS_HOOKUP_MEMBER-->
+		<p>{L_HOOKUP_INVITE_SELF_LEAVE_EXPLAIN}</p>
+		
+		<fieldset class="fields2">
+			<form method="post" action="{S_HOOKUP_ACTION}">
+			<input type="hidden" name="invite_self" value="leave"/>
+			<input class="button1" type="submit" name="post" value="{L_HOOKUP_INVITE_SELF_LEAVE}" /><br />
+			{L_HOOKUP_INVITE_SELF_LEAVE_DESC}
+			</form>
+		</fieldset>
+	<!-- ELSE -->
+		<p>{L_HOOKUP_INVITE_SELF_EXPLAIN_GUEST}</p>
+	<!-- ENDIF -->
+
+	
+</div>
+<!-- ENDIF -->
+
+<!-- IF S_IS_HOOKUP_OWNER -->
+<div class="panel bg3" id="add-user-panel">
+	
+	<p>{L_USERNAMES_EXPLAIN}</p>
+	
+	<fieldset class="fields2">
+		<form method="post" action="{S_HOOKUP_ACTION}" id="ucp">
+			<fieldset>
+				<dl>
+					<dt><label for="usernames">{L_USERNAME}{L_COLON}</label><br />[<a href="{U_FIND_USERNAME}" onclick="find_username(this.href); return false;">{L_FIND_USERNAME}</a>]</dt>
+					<dd><textarea class="inputbox autowidth" id="usernames" name="usernames" cols="40" rows="5"></textarea></dd>
+					<!-- IF not S_IS_HOOKUP_MEMBER -->
+					<dd><label for="invite_self"><input type="checkbox" id="invite_self" name="invite_self" value="join"/> {L_HOOKUP_INVITE_MYSELF}</label></dd>
+					<!-- ENDIF -->
+				</dl>
+				<input class="button1" type="submit" name="post" value="{L_SUBMIT}" />
+			</fieldset>
+		</form>
+	</fieldset>
+
+</div>
+
+<div class="panel bg3" id="add-group-panel">
+	
+	<p>{L_HOOKUP_ADD_GROUPS_EXPLAIN}</p>
+	
+	<fieldset class="fields2">
+		<form method="post" action="{S_HOOKUP_ACTION}">
+			<fieldset>
+				<dl>
+					<dt><label for="add_groups">{L_GROUPS}{L_COLON}</label></dt>
+					<dd><select name="add_groups[]" id="add_groups" size="6" multiple="multiple">{S_GROUP_LIST}</select></dd>
+				</dl>
+				<input class="button1" type="submit" name="post" value="{L_SUBMIT}" />
+			</fieldset>
+		</form>
+	</fieldset>
+
+</div>
+
+<div class="panel bg3" id="delete-panel">
+
+	<!-- IF S_HAS_USERS or S_HAS_DATES -->
+	<p>{L_HOOKUP_DELETE_EXPLAIN}</p>
+	
+	<fieldset class="fields1">
+		<form method="post" action="{S_HOOKUP_ACTION}">
+			<fieldset>				
+				<!-- IF S_HAS_USERS -->
+				<dl>
+					<dt><label for="delete_user">{L_DELETE_USERS}{L_COLON}</label></dt>
+					<dd>
+						<select name="delete_user[]" id="delete_user" size="5" multiple="multiple">
+						<!-- BEGIN user -->
+							<option value="{user.ID}">{user.NAME}</option>
+						<!-- END user -->
+						</select>
+					</dd>
+				</dl>
+				<!-- ENDIF -->
+				
+				<!-- IF S_HAS_DATES -->
+				<dl>
+					<dt><label for="delete_date">{L_DELETE_DATES}{L_COLON}</label></dt>
+					<dd>
+						<select name="delete_date[]" id="delete_date" size="5" multiple="multiple">
+						<!-- BEGIN date -->
+							<option value="{date.ID}" title="{date.YES_COUNT} {L_HOOKUP_YES}, {date.MAYBE_COUNT} {L_HOOKUP_MAYBE}, {date.NO_COUNT} {L_HOOKUP_NO}">{date.DATE}</option>
+						<!-- END date -->
+						</select>
+					</dd>
+				</dl>
+				<!-- ENDIF -->
+		
+				<input class="button1" type="submit" name="post" value="{L_SUBMIT}" />
+			</fieldset>
+		</form>
+	</fieldset>
+	
+	<hr class="dashed"/>
+	<!-- ENDIF -->
+	
+	<fieldset class="fields1">
+		<p>{L_DELETE_WHOLE_HOOKUP}{L_COLON}</p>
+	
+		<form method="post" action="{S_HOOKUP_ACTION}">
+			<fieldset>
+				<input type="hidden" name="delete_hookup" value="disable"/>
+				<dl>
+					<dt><label>{L_DELETE_HOOKUP_DISABLE}{L_COLON}</label></dt>
+					<dd>
+						<input class="button1" type="submit" name="post" value="{L_RUN}" /><br />
+						{L_DELETE_HOOKUP_DISABLE_EXPLAIN}
+					</dd>
+				</dl>
+			</fieldset>
+		</form>
+				
+		<form method="post" action="{S_HOOKUP_ACTION}">
+			<fieldset>
+				<input type="hidden" name="delete_hookup" value="delete"/>
+				<dl>
+					<dt><label>{L_DELETE_HOOKUP_DELETE}{L_COLON}</label></dt>
+					<dd>
+						<input class="button1" type="submit" name="post" value="{L_RUN}" /><br />
+						{L_DELETE_HOOKUP_DELETE_EXPLAIN}
+					</dd>
+				</dl>
+			</fieldset>
+		</form>
+	</fieldset>
+
+</div>
+<!-- ENDIF -->
+
+</div>
+
+<script type="text/javascript">
+<!--
+	subPanels(show_panel);
+-->
+</script>
+
+<hr/>
