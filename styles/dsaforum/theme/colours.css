@@ -53,17 +53,17 @@ a.forumtitle: hover { #60584b; }
 
 /* Post body links */
 .postlink {
-	border-bottom-color: #7A561C;
+	
 	color: #7A561C;
 }
 
 .postlink:visited {
-	border-bottom-color: #7A561C;
+
 	color: #7A561C;
 }
 
 .postlink:hover {
-	border-bottom-color: #000;
+	
 	color: #000;
 }
 

@@ -103,13 +103,12 @@ a.lastsubject:hover {
 
 /* Post body links */
 .postlink {
-	text-decoration: none;
-	border-bottom: 1px solid transparent;
+	text-decoration: underline;
 	padding-bottom: 0;
 }
 
 .postlink:hover {
-	text-decoration: none;
+	text-decoration: underline;
 }
 
 .signature a, .signature a:hover {
