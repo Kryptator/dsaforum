@@ -428,7 +428,7 @@ page-header-border {}
 }
 
 
-ul.linklist {
+ul.linklist, ul.linklist_f {
 
 	margin: 0;
 }
@@ -437,7 +437,7 @@ ul.linklist {
 	padding: 5px 10px;
 }
 
-ul.linklist > li {
+ul.linklist > li, ul.linklist_f > li {
 	float: left;
 	font-size: 1.1em;
 	line-height: 2.2em;
@@ -447,7 +447,7 @@ ul.linklist > li {
 	width: auto;
 }
 
-ul.linklist > li.rightside, p.rightside, a.rightside {
+ul.linklist > li.rightside, ul.linklist_f > li, p.rightside, a.rightside {
 	float: right;
 	margin-right: 0;
 	margin-left: 7px;
@@ -1260,6 +1260,7 @@ fieldset.fields1 dl.pmlist dd.recipients {
 
 .headerspace {
 	margin-top: 20px;
+	padding: 0 0 10px 10px;
 }
 
 .error {
@@ -1576,3 +1577,13 @@ ul.linklist:after,
 
 /* Advanced selectors */
 
+.topicicon {
+	width: 35px;
+    height: 35px;
+    display: block;
+    margin-left: 40px;
+    margin-right: 5px;
+    float: left;
+    margin-top: 3px;
+	background-size: 100%;
+}

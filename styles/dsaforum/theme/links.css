@@ -151,6 +151,10 @@ a.lastsubject:hover {
 	float: right;
 	margin-right: -10px;
 	margin-top: 0;
+	padding: 10px;
+}
+.back2top .top  .icon {
+	font-size: 16px;
 }
 
 /* Arrow links  */

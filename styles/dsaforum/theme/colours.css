@@ -26,7 +26,34 @@ hr {
 	border-color: #FFFFFF;
 	border-top-color: #CCCCCC;
 }
+/* Bilderlinks*/
 
+a.postlink[href$=".jpg"],
+a.postlink[href$=".gif"],
+a.postlink[href$=".png"],
+a.postlink[href$=".svg"] { 
+padding-left: 21px;
+ position: relative;
+	}
+
+a.postlink[href$=".jpg"]:before {
+	    content: "\f03e";
+		   font-weight: normal;
+    font-style: normal;
+    font-variant: normal;
+    font-family: FontAwesome;
+    font-size: 14px;
+    line-height: 1;
+	padding-right: 10px;
+    text-rendering: auto;
+	display:block;
+	width: 21px;
+	height: 10px;
+	position: absolute;
+	left: 0;
+	
+    -webkit-font-smoothing: antialiased;
+}
 /*
 --------------------------------------------------------------
 Colours and backgrounds for links.css
@@ -81,6 +108,7 @@ a.forumtitle: hover { #60584b; }
 	color: #368AD2;
 }
 /* External Link Icon */
+
 .wiki a,
 a.wiki,
 a.postlink[href *="de.wiki-aventurica.de"],a.postlink[href *="de.wiki-aventurica.de"]:active,
@@ -100,7 +128,7 @@ a.postlink[href *="ulisses-regelwiki.de"],a.postlink[href *="ulisses-regelwiki.d
     padding-left: 22px;
 	border: none;
 }
-
+.content a.ogplink { padding-left: 0; }
 /* Action-bars (container for post/reply buttons, pagination, etc.)
 ---------------------------------------- */
 .action-bar {
@@ -360,41 +388,79 @@ dl.row-item dt .list-inner {
 color: #000;
 }
 /* Icons */
-span.dsa5, span.dsa4, span.ilaris {
 
-    border: 1px solid #989079;
-    border-radius: 3px;
-    padding: 1px;
-    font-family: Verdana;
-	color: #fff;
-    font-weight: bold;
-    font-size: 10px;
-	margin-right: 3px;
-}
-.dsa4 {
-    color: #ffffff;
-	    background-color: #425939;
-}
-.dsa5 {
-  color: #ffffff;
-       background-color: #0052A4;
-}
-.ilaris {
-   color: #ffffff;
-   background-color: #5E4F40;
-}
-span.frage, span.suche, span.verkaufe, span.forenabenteuer, span.discord, span.drachenzwinge, span.teamspeak {
-	  border: 1px solid #989079;
-    border-radius: 3px;
-    padding: 1px;
+
+span.frage, span.suche, span.verkaufe, span.tausche, span.forenabenteuer, span.discord, span.drachenzwinge, span.teamspeak, span.qte-attr, span.dunklen {
+	display: inline-block;
+	margin-bottom: 3px;
+    padding: 3px;
     font-family: Verdana;
 	color: #000;
-    font-weight: bold;
-    font-size: 10px;
+    font-weight: normal;
 	margin-right: 3px;
 	background: #fff;
 }
+span.dsa5, span.dsa4, span.ilaris {
+	display: inline-block;
+	margin-bottom: 3px;
+    padding: 3px;
+    font-family: Verdana;
+	color: #fff;
+    font-weight: normal;
+	margin-right: 3px;
+}
+.dsa4, span.dsa4 {
+    color: #ffffff;
+	    background-color: #61705B;
+}
+.dsa5, span.dsa5 {
+  color: #ffffff;
+       background-color: #376C9F;
+}
+.ilaris, span.ilaris {
+   color: #ffffff;
+   background-color: #5E4F40;
+}
+.discord, span.discord {
+	color: #fff;
+	background-color: #5D5DB9;
+}
+.drachenzwinge, span.drachenzwinge {
+	color: #fff;
+	background-color: #505050;
+}
+.dunklen, span.dunklen {
+	color: #fff;
+	background-color: #303030;
+}
+.verkaufe, span.verkaufe  {
+	color: #404040;
+	background-color: #A4D9A4;
+}
+.suche, span.suche  {
+	color: #404040;
+	background-color: #FFB870;
+}
+.tausche, span.tausche  {
+	color: #404040;
+	background-color: #70CAEA;
+}				
 
+.frage, span.frage  {
+	color: #404040;
+	background-color: #FFFFFF;
+}
+.teamspeak, span.teamspeak  {
+	color: #404040;
+	background-color: #CCD8E4;
+}
+.forenabenteuer, span.forenabenteuer  {
+	color: #404040;
+	background-color: #E1C280;
+}
+#nav-main .discord {
+	background-color: transparent;
+}
 .thanks			{ 
 background: url("./images/icon_thanks.gif") no-repeat 0 0; 
 padding-left: 20px; 
@@ -428,6 +494,20 @@ padding-left: 20px;
     background:  url("./images/Wiki2.svg") no-repeat 0 0;
     text-indent: -30000px;
 }
+.navbar li.dsanews a  {
+	display: block;
+    width: 27px;
+    height: 27px;
+    background:  url("./images/DSAnews.svg") no-repeat 0 0;
+    text-indent: -30000px;
+}
+.navbar li.pnpnews a  {
+	display: block;
+    width: 27px;
+    height: 27px;
+    background:  url("./images/pnpnews.svg") no-repeat 0 0;
+    text-indent: -30000px;
+}
 #sticker a:hover,
 #sticker a:focus {
 	background-color: #f1e2c3;
@@ -458,6 +538,30 @@ padding-left: 20px;
     width: 40px;
     height: 40px;
     background:  url("./images/Wiki2.svg") no-repeat 0 0;
+    text-indent: -30000px;
+	background-size: 100%;
+}
+#sticker li.dsanews a span {
+	clear: both;
+	margin-top: -4px;
+}
+#sticker li.pnpnews a span {
+	clear: both;
+	margin-top: -4px;
+}
+#sticker li.dsanews a i {
+	display: inline-block;
+    width: 34px;
+    height: 34px;
+    background:  url("./images/DSAnews.svg") no-repeat 0 0;
+    text-indent: -30000px;
+	background-size: 100%;
+}
+#sticker li.pnpnews a i {
+	display: inline-block;
+    width: 34px;
+    height: 34px;
+    background:  url("./images/pnpnews.svg") no-repeat 0 0;
     text-indent: -30000px;
 	background-size: 100%;
 }
@@ -770,11 +874,26 @@ fieldset.polls dd div {
 .rtl .pollbar1, .rtl .pollbar2, .rtl .pollbar3, .rtl .pollbar4, .rtl .pollbar5 {
 	border-right-color: transparent;
 }
+.most-votes .pollbar1, .most-votes  .pollbar2, .most-votes .pollbar3, .most-votes .pollbar4, .most-votes .pollbar5 {
+	background-color: #5C4115;
+    border-bottom-color: #333;
+    border-right-color: #333;
+	color: #fff!important;
+}
+.voted .pollbar1, .voted  .pollbar2, .voted .pollbar3, .voted .pollbar4, .voted  .pollbar5 {
+	background-color: #cdad74;
+    background-image: -webkit-linear-gradient(top, #dcc484 0%, #cdad74 100%);
+    background-image: linear-gradient(to bottom, #dcc484 0%,#cdad74 100%);
+    border-bottom-color: #989079;
+    border-right-color: #989079;
+	color: #000!important;
+}
 
 .pollbar1 {
-	background-color: #AA2346;
-	border-bottom-color: #74162C;
-	border-right-color: #74162C;
+	background-color: #7a561c;
+    border-bottom-color: #333;
+    border-right-color: #333;
+
 }
 
 .rtl .pollbar1 {
@@ -782,43 +901,47 @@ fieldset.polls dd div {
 }
 
 .pollbar2 {
-	background-color: #BE1E4A;
-	border-bottom-color: #8C1C38;
-	border-right-color: #8C1C38;
+
+	background-color: #7a561c;
+    border-bottom-color: #333;
+    border-right-color: #333;
 }
 
 .rtl .pollbar2 {
-	border-left-color: #8C1C38;
+	border-left-color: #333;
 }
 
 .pollbar3 {
-	background-color: #D11A4E;
-	border-bottom-color: #AA2346;
-	border-right-color: #AA2346;
+	
+	background-color: #7a561c;
+    border-bottom-color: #333;
+    border-right-color: #333;
+
+
 }
 
 .rtl .pollbar3 {
-	border-left-color: #AA2346;
+	border-left-color: #333;
 }
 
 .pollbar4 {
-	background-color: #E41653;
-	border-bottom-color: #BE1E4A;
-	border-right-color: #BE1E4A;
+	background-color: #7a561c;
+    border-bottom-color: #333;
+    border-right-color: #333;
 }
 
 .rtl .pollbar4 {
-	border-left-color: #BE1E4A;
+	border-left-color: #333;
 }
 
 .pollbar5 {
-	background-color: #F81157;
-	border-bottom-color: #D11A4E;
-	border-right-color: #D11A4E;
+	background-color: #7a561c;
+    border-bottom-color: #333;
+    border-right-color: #333;
 }
 
 .rtl .pollbar5 {
-	border-left-color: #D11A4E;
+	border-left-color: #333;
 }
 
 /* Poster profile block

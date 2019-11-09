@@ -508,7 +508,7 @@ class ucp_profile
 				* @var	bool	submit				Whether or not the form has been sumitted
 				* @var	bool	preview				Whether or not the signature is being previewed
 				* @since 3.1.10-RC1
-				* @change 3.2.0-RC2 Removed message parser
+				* @changed 3.2.0-RC2 Removed message parser
 				*/
 				$vars = array(
 					'enable_bbcode',
@@ -759,7 +759,6 @@ class ucp_profile
 					'S_FORM_ENCTYPE'	=> ' enctype="multipart/form-data"',
 
 					'L_AVATAR_EXPLAIN'	=> $user->lang(($config['avatar_filesize'] == 0) ? 'AVATAR_EXPLAIN_NO_FILESIZE' : 'AVATAR_EXPLAIN', $config['avatar_max_width'], $config['avatar_max_height'], $config['avatar_filesize'] / 1024),
-
 
 					'S_AVATARS_ENABLED'		=> ($config['allow_avatar'] && $avatars_enabled),
 				));

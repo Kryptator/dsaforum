@@ -35,11 +35,11 @@ class main_listener implements EventSubscriberInterface
 			'core.posting_modify_message_text'			=> 'prepare_post_text_before_format',
 			'core.posting_modify_submit_post_before'	=> 'prepare_post_text_for_save',
 			'core.posting_modify_submit_post_after'		=> 'check_and_role_dices',
-			'core.posting_modify_template_vars'			=> 'prepare_post_text_for_edit',
 			'core.display_custom_bbcodes_modify_sql'	=> 'filter_bbcodes',
 			'core.viewtopic_modify_page_title'			=> 'quick_reply_bbcodes',
 			'core.viewtopic_before_f_read_check'		=> 'toggle_rem_init_rolls',
 			'core.viewtopic_modify_post_row'			=> 'format_dice_rolls',
+			'core.decode_message_after'					=> 'decode_post_text'
 		);
 	}
 
@@ -591,18 +591,6 @@ class main_listener implements EventSubscriberInterface
 					{
 						$valid_dicecode = false;
 					}
-					else
-					{
-						$dice_array = explode(':', $old_roll['dice_roll']);
-
-						for($i = 0; $i < $old_roll['numdice']; ++$i)
-						{
-							$total += $dice_array[$i];
-						}
-
-						$sql = 'UPDATE ' . $this->dice_table . ' SET total=' . $total . ', math_string="" WHERE post_id=' . $post_id . ' AND roll_id=' . $roll_id;
-						$this->db->sql_query($sql);
-					}
 				}
 				else
 				{
@@ -863,27 +851,12 @@ class main_listener implements EventSubscriberInterface
 
 			$this->db->sql_freeresult($result);
 
-  			$dmessage = str_replace("'", "\\'", $dmessage);
-
 			$sql = 'UPDATE ' . POSTS_TABLE . ' SET ' . $this->db->sql_build_array('UPDATE', array(
 				'post_text'			=> $dmessage,
 				'post_checksum'		=> md5($dmessage),
 			)) . ' WHERE post_id = ' . $this->post_id;
 			$this->db->sql_query($sql);
 		}
-	}
-
-	public function prepare_post_text_for_edit($event)
-	{
-		$post_data	= $event['post_data'];
-		$page_data	= $event['page_data'];
-		$dmessage	= $page_data['MESSAGE'];
-		$bbcode_uid	= $post_data['bbcode_uid'];
-
-		$dmessage	= str_replace(':' . $bbcode_uid, '', $dmessage);
-
-		$page_data['MESSAGE'] = $dmessage;
-		$event['page_data'] = $page_data;
 	}
 
 	public function format_dice_rolls($event)
@@ -906,6 +879,17 @@ class main_listener implements EventSubscriberInterface
 
 		$post_row['MESSAGE']	= $message;
 		$event['post_row']		= $post_row;
+	}
+
+	public function decode_post_text($event)
+	{
+		$message_text	= $event['message_text'];
+		$bbcode_uid		= $event['bbcode_uid'];
+		if ($bbcode_uid)
+		{
+			$message_text	= str_replace(':' . $bbcode_uid . ']', ']', $message_text);
+		}
+		$event['message_text'] = $message_text;
 	}
 
 	private function _decodedice($roll_code, $modes)

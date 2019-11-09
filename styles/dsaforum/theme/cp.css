@@ -323,6 +323,7 @@ ol.def-rules li {
 }
 
 /* Avatar gallery */
+#avatar_options .gallery label,
 .gallery label {
 	position: relative;
 	float: left;

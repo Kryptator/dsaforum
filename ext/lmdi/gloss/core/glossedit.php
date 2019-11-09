@@ -393,11 +393,11 @@ class glossedit
 					$l = $row['a'];
 					$abc_links .= "&nbsp;<a class=\"cap\" href =\"#$l\">$l</a>&nbsp;" ;
 
-					$sql  = "SELECT * FROM $table WHERE LEFT($table.term, 1) = \"$l\" ORDER BY term";
+					$sql  = "SELECT * FROM $table WHERE LEFT($table.term, 1) = \"$l\" ORDER BY variants";
 					$result2 = $this->db->sql_query($sql);
 
 					$cpt++;
-					$corps .= "\n<tr class=\"deg\"><td class=\"glossi\" colspan=\"3\" id=\"$l\">&nbsp;$l</td>";
+					$corps .= "\n<tr class=\"glossTitle\"><td colspan=\"3\" id=\"$l\"></td></tr><tr class=\"deg\"><td class=\"glossi\" colspan=\"3\">&nbsp;$l</td>";
 					$corps .= "<td class=\"haut\"><a href=\"#haut\"><img src=\"$top\"></a></td></tr>";
 					while ($arow = $this->db->sql_fetchrow($result2))
 					{

@@ -777,6 +777,7 @@ p.author {
 		.section-index #sticker ul.linklist a{
 		line-height: 1.2;
 		height: auto;
+		min-height: 65px;
 	}
 		.section-index #sticker ul.linklist a i{
 		padding-bottom: 5px;
@@ -789,6 +790,10 @@ p.author {
 
 @media (min-width: 850px) {
 	.postbody { width: 82%; }
+	/* Dr. Love */
+.drlove {
+	margin-left: 8px;
+	}
 }
 
 @media (max-width: 850px) {

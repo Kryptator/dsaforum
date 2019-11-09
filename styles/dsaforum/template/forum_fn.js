@@ -938,3 +938,36 @@ jQuery(function($) {
 
 	parseDocument($('body'));
 });
+
+// Auszeichnungen ein- und ausblenden
+// Zustand gespeichert in Local Storage
+
+$(document).ready(function() {
+  if (window.localStorage.getItem("profile-flair") != null) {
+    var pb = window.localStorage.getItem("profile-flair");
+     var v = $(".profile-flair").is(":visible");
+      $('.flair-toggle').removeClass('closed');
+
+    if (pb == "true") {
+      $(".profile-flair").hide();
+      $('.flair-toggle').addClass('closed');
+      $('.flair-toggle').html('mehr anzeigen');
+      
+   
+    }
+  }
+
+  $(".flair-toggle").click(function() {
+    var v = $(".profile-flair span").is(":visible")
+    $(".profile-flair").fadeToggle("fast");
+
+    window.localStorage.setItem("profile-flair", v)
+         if (v == true) {
+      $('.flair-toggle').html('mehr anzeigen');
+       $('.flair-toggle').addClass('closed');
+    } else {
+     $('.flair-toggle').html('weniger anzeigen');
+      $('.flair-toggle').removeClass('closed');
+    }
+  });
+});

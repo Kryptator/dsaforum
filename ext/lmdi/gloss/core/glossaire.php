@@ -103,11 +103,11 @@ class glossaire
 			$sql = "SELECT * 
 					FROM " . $this->glossary_table . "
 					WHERE LEFT($this->glossary_table.term, 1) = '$l' 
-					ORDER BY term";
+					ORDER BY variants";
 			$result2 = $this->db->sql_query ($sql);
 
 			$cpt++;
-			$corps .= "<tr class=\"deg\"><td class=\"glossi\" colspan=\"2\" id=$l>&nbsp;$l</td>";
+			$corps .= "<tr class=\"glossTitle\"><td colspan=\"3\" id=$l></td></tr><tr class=\"deg\"><td class=\"glossi\" colspan=\"2\" >&nbsp;$l</td>";
 			$corps .= "<td class=\"haut\"><a href=\"#haut\"><img src=\"$top\"></a></td></tr>";
 			while ($arow = $this->db->sql_fetchrow($result2))
 			{

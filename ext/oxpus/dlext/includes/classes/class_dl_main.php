@@ -143,7 +143,6 @@ class dl_main extends dl_mod
 				$sublevel['cat_id'][$i] = $dl_index[$cat_id]['id'];
 				$sublevel['cat_path'][$i] = ($helper) ? $helper->route('oxpus_dlext_controller', array('cat' => $cat_id)) : 'app.' . $phpEx . '/dlext/?cat=' . $cat_id;
 				$sublevel['cat_sub'][$i] = $cat_id;
-				$sublevel['cat_icon'][$i] = $dl_index[$cat_id]['cat_icon'];
 
 				$sublevel['description'][$i] = (isset($dl_index[$cat_id]['description'])) ? $dl_index[$cat_id]['description'] : '';
 				$sublevel['desc_uid'][$i] = (isset($dl_index[$cat_id]['desc_uid'])) ? $dl_index[$cat_id]['desc_uid'] : '';

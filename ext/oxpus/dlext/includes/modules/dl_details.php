@@ -620,6 +620,13 @@ if ($index[$cat_id]['comments'] && \oxpus\dlext\includes\classes\ dl_auth::cat_a
 			'TOTAL_DL'		=> $this->language->lang('DL_COMMENTS_COUNT', $real_comment_exists),
 		));
 	}
+	else 
+	{
+		$this->template->assign_vars(array(
+
+			'TOTAL_DL'		=> $this->language->lang('DL_COMMENTS_COUNT', $real_comment_exists),
+		));
+	}
 
 	if ($real_comment_exists)
 	{
@@ -632,7 +639,7 @@ if ($index[$cat_id]['comments'] && \oxpus\dlext\includes\classes\ dl_auth::cat_a
 				AND approve = ' . true . '
 			ORDER BY comment_time DESC';
 		$result = $this->db->sql_query_limit($sql, $this->config['dl_links_per_page'], $start);
-
+$count_result = count($result);
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$avatar_row = array(
@@ -678,6 +685,7 @@ if ($index[$cat_id]['comments'] && \oxpus\dlext\includes\classes\ dl_auth::cat_a
 				'MESSAGE'		=> $message,
 				'POST_TIME'		=> $this->user->format_date($comment_time),
 				'DL_ID'			=> $dl_id,
+				'COUNT'		=> $count_result,
 
 				'U_DELETE_COMMENT'	=> $u_delete_comment,
 				'U_EDIT_COMMENT'	=> ($deny_post) ? '' : $u_edit_comment,
@@ -1284,10 +1292,19 @@ if ($index[$cat_id]['allow_thumbs'] && $this->config['dl_thumb_fsize'])
 					'THUMBNAIL_NAME'	=> $thumbs_ary[$key]['img_title'])
 				);
 			}
-	
+			else
+			{
+				$drop_images[] = $thumbs_ary[$key]['img_id'];
+			}
 		}
 
-		
+		if (sizeof($drop_images))
+		{
+			$sql = 'DELETE FROM ' . DL_IMAGES_TABLE . '
+				WHERE dl_id = ' . (int) $df_id . '
+					AND ' . $this->db->sql_in_set('img_id', array_map('intval', $drop_images));
+			$this->db->sql_query($sql);
+		}
 	}
 }
 
@@ -1485,7 +1502,7 @@ if (isset($dl_fields['row']) && sizeof($dl_fields['row']))
 $detail_cat_names = array(
 	0 => $this->language->lang('DL_DETAIL'),
 	1 => ($ver_tab) ? $this->language->lang('DL_VERSIONS') : '',
-	2 => ($s_comments_tab) ? $this->language->lang('DL_COMMENTS') : '',
+	2 => ($s_comments_tab) ? $this->language->lang('DL_COMMENTS_COUNT', $real_comment_exists)  : '',
 );
 
 for ($i = 0; $i < sizeof($detail_cat_names); $i++)

@@ -24,10 +24,18 @@
 						<!-- IF S_USER_LOGGED_IN -->
 							<li>
 								<a href="{U_SEARCH_NEW}" role="menuitem">
-									<i class="icon fa-file-o fa-fw icon-red" aria-hidden="true"></i><span>{L_SEARCH_NEW}</span>
+									<i class="icon fa-file-o fa-fw icon-red" aria-hidden="true"></i><span>{L_SEARCH_NEW} (Alles) </span>
 								</a>
 							</li>
 						<!-- ENDIF -->
+						<!-- IF S_USER_LOGGED_IN -->
+							<li>
+								<a href="{U_SEARCH_NEW}&fid[]=49&fid[]=8" role="menuitem">
+									<i class="icon fa-file-o fa-fw icon-red" aria-hidden="true"></i><span>{L_SEARCH_NEW} (DSA)</span>
+								</a>
+							</li>
+						<!-- ENDIF -->
+						
 						<!-- IF S_LOAD_UNREADS -->
 							<li>
 								<a href="{U_SEARCH_UNREAD}" role="menuitem">
