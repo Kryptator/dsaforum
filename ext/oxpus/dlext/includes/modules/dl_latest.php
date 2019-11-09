@@ -102,7 +102,7 @@ if ($total_files > $this->config['dl_links_per_page'])
 $sql_sort_by = ($sql_sort_by == 'sort') ? 'cat, sort' : $sql_sort_by;
 
 $dl_files = array();
-$dl_files = \oxpus\dlext\includes\classes\ dl_files::all_files(0, '', '', $sql_latest_where . ' ORDER BY ' . $sql_sort_by . ' ' . $sql_order . ' LIMIT ' . $start . ', ' . $this->config['dl_links_per_page'], 0, 0, 'cat, id, description, desc_uid, desc_bitfield, desc_flags, hack_version, extern, file_size, klicks, overall_klicks, rating');
+$dl_files = \oxpus\dlext\includes\classes\ dl_files::all_files(0, '', '', $sql_latest_where . ' ORDER BY ' . $sql_sort_by . ' ' . $sql_order . ' LIMIT ' . $start . ', ' . $this->config['dl_links_per_page'], 0, 0, 'cat, id, description, desc_uid, desc_bitfield, desc_flags, hack_version, extern, file_size, thumbnail, klicks, overall_klicks, rating');
 
 if (sizeof($dl_files))
 {
@@ -127,7 +127,10 @@ if (sizeof($dl_files))
 			$desc_flags = $dl_files[$i]['desc_flags'];
 			$description = censor_text($description);
 			$description = generate_text_for_display($description, $desc_uid, $desc_bitfield, $desc_flags);
-
+			
+			$thumbnail_name = $dl_files[$i]['thumbnail'];
+			$thumbnail = DL_EXT_THUMBS_WEB_FOLDER . str_replace(" ", "%20", $thumbnail_name);
+			
 			$dl_link = $this->helper->route('oxpus_dlext_controller', array('view' => 'detail', 'df_id' => $file_id));
 
 			$hack_version = '&nbsp;'.$dl_files[$i]['hack_version'];
@@ -184,6 +187,9 @@ if (sizeof($dl_files))
 				'RATINGS'				=> $rating_count_text,
 				'STATUS'				=> $status,
 				'DF_ID'					=> $file_id,
+				
+				'THUMBNAIL'				=> $thumbnail,
+				'THUMBNAIL_NAME'		=> $thumbnail_name,
 
 				'U_CAT_VIEW'			=> $cat_view,
 				'U_DL_LINK'				=> $dl_link)

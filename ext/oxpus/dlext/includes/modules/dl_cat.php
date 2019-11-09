@@ -336,7 +336,7 @@ $i = 0;
 if ($cat && $total_downloads)
 {
 	$dl_files = array();
-	$dl_files = \oxpus\dlext\includes\classes\ dl_files::files($cat, $sql_sort_by, $sql_order, $start, $this->config['dl_links_per_page'], 'id, description, desc_uid, desc_bitfield, desc_flags, hack_version, extern, file_size, klicks, overall_klicks, rating, long_desc, long_desc_uid, long_desc_bitfield, long_desc_flags, add_user');
+	$dl_files = \oxpus\dlext\includes\classes\ dl_files::files($cat, $sql_sort_by, $sql_order, $start, $this->config['dl_links_per_page'], 'id, description, desc_uid, desc_bitfield, desc_flags, hack_version, extern, thumbnail, file_size, klicks, overall_klicks, rating, long_desc, long_desc_uid, long_desc_bitfield, long_desc_flags, add_user');
 
 	if (\oxpus\dlext\includes\classes\ dl_auth::cat_auth_comment_read($cat))
 	{
@@ -375,12 +375,15 @@ if ($cat && $total_downloads)
 		$description = censor_text($description);
 		$description = generate_text_for_display($description, $desc_uid, $desc_bitfield, $desc_flags);
 
+		$thumbnail_name = $dl_files[$i]['thumbnail'];
+		$thumbnail = DL_EXT_THUMBS_WEB_FOLDER . str_replace(" ", "%20", $thumbnail_name);
+		
 		$long_desc = $dl_files[$i]['long_desc'];
 		$long_desc = censor_text($long_desc);
 		$long_desc = generate_text_for_display($long_desc, $long_desc_uid, $long_desc_bitfield, $long_desc_flags);
+		$long_desc = strip_tags($long_desc, '<br><br/>');
 		if (intval($this->config['dl_limit_desc_on_index']) && strlen($long_desc) > intval($this->config['dl_limit_desc_on_index']))
 		{
-			$long_desc = strip_tags($long_desc, '<br><br/>');
 			$long_desc = substr($long_desc, 0, intval($this->config['dl_limit_desc_on_index'])) . ' [...]';
 		}
 
@@ -465,6 +468,8 @@ if ($cat && $total_downloads)
 			'RATING_IMG'			=> \oxpus\dlext\includes\classes\ dl_format::rating_img($rating_points, $s_rating_perm, $file_id),
 			'RATINGS'				=> $rating_count_text,
 			'STATUS'				=> $status,
+			'THUMBNAIL'				=> $thumbnail,
+			'THUMBNAIL_NAME'		=> $thumbnail_name,
 			'FILE_SIZE'				=> $file_size,
 			'FILE_KLICKS'			=> $file_klicks,
 			'FILE_OVERALL_KLICKS'	=> $file_overall_klicks,

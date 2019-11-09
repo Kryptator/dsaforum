@@ -200,6 +200,9 @@ if ($search_keywords != '' && !$search_author)
 			$description		= censor_text($description);
 			$description		= generate_text_for_display($description, $desc_uid, $desc_bitfield, $desc_flags);
 
+			$thumbnail_name = $row['thumbnail'];
+			$thumbnail = DL_EXT_THUMBS_WEB_FOLDER . str_replace(" ", "%20", $thumbnail_name);
+
 			$long_desc			= $row['long_desc'];
 			$long_desc_uid		= $row['long_desc_uid'];
 			$long_desc_bitfield	= $row['long_desc_bitfield'];
@@ -214,7 +217,8 @@ if ($search_keywords != '' && !$search_author)
 				'MINI_ICON'		=> $mini_icon,
 				'FILE_NAME'		=> $file_name,
 				'LONG_DESC'		=> $long_desc,
-
+				'THUMBNAIL'		=> $thumbnail,
+				'THUMBNAIL_NAME'	=> $thumbnail_name,
 				'U_CAT_LINK'	=> $u_cat_link,
 				'U_FILE_LINK'	=> $u_file_link)
 			);
@@ -326,6 +330,9 @@ else if ($search_author)
 			$status			= $dl_status['status'];
 			$file_name		= $dl_status['file_name'];
 
+			$thumbnail_name = $row['thumbnail'];
+			$thumbnail = DL_EXT_THUMBS_WEB_FOLDER . str_replace(" ", "%20", $thumbnail_name);
+
 			$mini_icon		= (isset($index[$cat_id]['parent'])) ? \oxpus\dlext\includes\classes\ dl_status::mini_status_file($index[$cat_id]['parent'], $file_id) : '';
 
 			$cat_name		= $row['cat_name'];
@@ -352,6 +359,8 @@ else if ($search_author)
 				'MINI_ICON'		=> $mini_icon,
 				'FILE_NAME'		=> $file_name,
 				'LONG_DESC'		=> $long_desc,
+				'THUMBNAIL'		=> $thumbnail,
+				'THUMBNAIL_NAME'	=> $thumbnail_name,
 
 				'U_CAT_LINK'	=> $u_cat_link,
 				'U_FILE_LINK'	=> $u_file_link)
