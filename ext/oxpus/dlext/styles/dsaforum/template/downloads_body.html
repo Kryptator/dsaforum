@@ -1,0 +1,156 @@
+{% INCLUDE 'dl_header.html' %}
+
+{% if S_ENABLE_RATE %}
+<script type="text/javascript">
+// <![CDATA[
+var phpEx = '{{ PHPEX }}';
+var dlAjaxUrl = '{{ U_DL_AJAX }}';
+// ]]>
+</script>
+<script type="text/javascript" src="{{ EXT_DL_PATH_AJAX }}ajax_dl.js"></script>
+{% endif %}
+
+<h2 class="dl-left">{{ INDEX_CAT_TITLE }}</h2>
+
+<br />
+
+<div class="dl-right">&nbsp;<a href="{{ U_DL_SEARCH }}" class="button icon-button">{{ lang('DL_SEARCH_DOWNLOAD') }}</a></div>
+<div class="dl-right">{% if S_DL_UPLOAD %}<a href="{{ DL_UPLOAD }}" class="button icon-button reply-icon">{{ lang('DL_UPLOAD') }}</a>{% endif %}</div>
+
+<div class="clear"></div>
+
+<div><strong>{% if DL_MODCP %}{{ lang('MODERATORS') }}{% endif %}</strong> {{ DL_MODCP }}</div>
+
+{% if S_CAT_TRAFFIC %}
+<div class="panel bg3">
+	<div class="inner">
+
+	<span><strong>{{ CAT_TRAFFIC }}</strong></span>
+
+	</div>
+</div>
+{% endif %}
+
+{% if S_CAT_RULE %}
+<div class="rules">
+	<div class="inner">
+
+	<span>{{ CAT_RULE }}</span>
+
+	</div>
+</div>
+{% endif %}
+
+{% if S_SUBCATS %}{% INCLUDE 'view_dl_subcat_body.html' %}{% endif %}
+
+<br />
+
+{% if S_DOWNLOAD_ROWS %}
+<div class="forabg">
+	<div class="inner">
+
+	<ul class="topiclist">
+		<li class="header">
+			<dl>
+				<dt><div class="list-inner">{{ lang('DL_INFO') }} &bull; {{ lang('DL_NAME') }}<br />{{ lang('DL_FILE_DESCRIPTION') }}</div></dt>
+				<dd class="topics">{{ lang('DL_FILE_SIZE') }}</dd>
+				<dd class="posts">{{ lang('DL_KLICKS') }}<br />{{ lang('DL_OVERALL_KLICKS') }}</dd>
+				{% for comment_header in loops.comment_header %}
+				<dd class="lastpost">{% if S_ENABLE_RATE %}{{ lang('DL_RATING') }}{% else %}&nbsp;{% endif %}</dd>
+				{% endfor %}
+			</dl>
+		</li>
+	</ul>
+	<ul class="topiclist forums">
+		{% for downloads in loops.downloads %}
+		<li class="row dlrow">
+			<dl>
+				<dt>
+				<div class="list-inner">
+				{% if downloads.THUMBNAIL_NAME %}<div class="dl-image"><img src="{{ downloads.THUMBNAIL }}" /></div>{% endif %}
+				{{ downloads.STATUS }}&nbsp;<a href="{{ downloads.U_FILE }}" class="forumtitle">{{ downloads.DESCRIPTION }}</a>&nbsp;{{ downloads.HACK_VERSION }}&nbsp;{{ downloads.MINI_IMG }}
+					{% if downloads.U_DIRECT_EDIT %}&nbsp;[ <a href="{{ downloads.U_DIRECT_EDIT }}">{{ lang('DL_EDIT_FILE') }}</a> ]{% endif %}
+					<br />{{ downloads.LONG_DESC }}<br/>
+					</div>
+				</dt>
+				<dd class="topics">{{ downloads.FILE_SIZE }}</dd>
+				<dd class="posts"><div>{{ downloads.FILE_KLICKS }} &bull; {{ downloads.FILE_OVERALL_KLICKS }}</div></dd>
+				<dd class="lastposts">
+					{% if S_ENABLE_RATE and downloads.RATING_IMG %}<div id="rating_{{ downloads.DF_ID }}">{{ downloads.RATING_IMG }}<br />{{ downloads.RATINGS }}</div>{% endif %}
+    				{% for comments in downloads.comments %}
+                    <br />
+					<div>
+						{% if comments.U_COMMENT %}
+						<a href="{{ comments.U_COMMENT }}"><i class="icon fa-comments fa-fw" aria-hidden="true"></i> {{ lang('DL_COMMENTS') }}</a>
+						{% endif %}
+					</div>
+    				{% endfor %}
+				</dd>
+			</dl>
+		</li>
+		{% endfor %}
+	</ul>
+
+	</div>
+</div>
+{% endif %}
+
+{% if S_EMPTY_CATEGORY %}
+<div class="panel">
+	<div class="inner">
+	<strong>{{ lang('DL_EMPTY_CATEGORY') }}</strong>
+	</div>
+</div>
+{% endif %}
+
+{% if loops.pagination|length or TOTAL_DL %}
+	<div class="pagination">
+		{{ TOTAL_DL }}
+		{% if loops.pagination|length %}
+			{% INCLUDE 'pagination.html' %}
+		{% else %}
+			&bull; {{ PAGE_NUMBER }}
+		{% endif %}
+	</div>
+{% endif %}
+
+<br />
+
+{% if S_SORT_OPTIONS %}
+<form action="{{ U_DOWNLOADS }}" method="post">
+
+<fieldset>
+
+<p class="dl-text-center">
+	{{ lang('SORT_BY') }}
+	&nbsp;
+	<select name="sort_by" onchange="forms['dl_mod'].submit()">
+	<option value="0"{{ SELECTED_0 }}>{{ lang('DL_DEFAULT_SORT') }}</option>
+	<option value="1"{{ SELECTED_1 }}>{{ lang('DL_FILE_DESCRIPTION') }}</option>
+	<option value="2"{{ SELECTED_2 }}>{{ lang('DL_FILE_NAME') }}</option>
+	<option value="3"{{ SELECTED_3 }}>{{ lang('DL_KLICKS') }}</option>
+	<option value="4"{{ SELECTED_4 }}>{{ lang('DL_FREE') }}</option>
+	<option value="5"{{ SELECTED_5 }}>{{ lang('DL_EXTERN') }}</option>
+	<option value="6"{{ SELECTED_6 }}>{{ lang('DL_FILE_SIZE') }}</option>
+	<option value="7"{{ SELECTED_7 }}>{{ lang('LAST_UPDATED') }}</option>
+	<option value="8"{{ SELECTED_8 }}>{{ lang('DL_RATING') }}</option>
+	</select>
+	&nbsp;&nbsp;&nbsp;
+	{{ lang('DL_ORDER') }}
+	&nbsp;
+	<select name="order" onchange="forms['dl_mod'].submit()">
+	<option value="ASC"{{ SELECTED_SORT_0 }}>{{ lang('ASCENDING') }}</option>
+	<option value="DESC"{{ SELECTED_SORT_1 }}>{{ lang('DESCENDING') }}</option>
+	</select>
+	&nbsp;
+	<input type="submit" class="button2" value="{{ lang('GO') }}" />
+</p>
+
+</fieldset>
+
+</form>
+{% endif %}
+
+<br />
+
+{% INCLUDE 'dl_footer.html' %}

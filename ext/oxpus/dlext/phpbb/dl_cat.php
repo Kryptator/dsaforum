@@ -32,9 +32,9 @@ if (!$cat)
 else
 {
 	$cat_auth = array();
-	$cat_auth = \oxpus\dlext\includes\classes\ dl_auth::dl_cat_auth($cat);
+	$cat_auth = \oxpus\dlext\phpbb\classes\ dl_auth::dl_cat_auth($cat);
 	$index_auth = array();
-	$index_auth = \oxpus\dlext\includes\classes\ dl_main::full_index($this->helper, $cat);
+	$index_auth = \oxpus\dlext\phpbb\classes\ dl_main::full_index($this->helper, $cat);
 
 	if (!$cat_auth['auth_view'] && !$index_auth[$cat]['auth_view'] && !$this->auth->acl_get('a_'))
 	{
@@ -115,7 +115,7 @@ if (sizeof($index) > 0)
 		}
 
 		$mini_icon = array();
-		$mini_icon = \oxpus\dlext\includes\classes\ dl_status::mini_status_cat($cat_id, $cat_id);
+		$mini_icon = \oxpus\dlext\phpbb\classes\ dl_status::mini_status_cat($cat_id, $cat_id);
 
 		if ($mini_icon[$cat_id]['new'] && !$mini_icon[$cat_id]['edit'])
 		{
@@ -134,7 +134,7 @@ if (sizeof($index) > 0)
 			$mini_cat_icon = '<i class="icon fa-folder fa-fw dl-big"></i>';
 		}
 
-		$last_dl_time = \oxpus\dlext\includes\classes\ dl_main::find_latest_dl($last_dl, $cat_id, $cat_id, array());
+		$last_dl_time = \oxpus\dlext\phpbb\classes\ dl_main::find_latest_dl($last_dl, $cat_id, $cat_id, array());
 		$last_cat_id = (isset($last_dl_time['cat_id'])) ? $last_dl_time['cat_id'] : 0;
 
 		if (isset($last_dl[$cat_id]['change_time']) && isset($last_dl_time['change_time']))
@@ -182,7 +182,7 @@ if (sizeof($index) > 0)
 			'CAT_NAME'			=> $cat_name,
 			'CAT_ICON'			=> $cat_icon,
 			'CAT_ID'			=> $cat_id,
-			'CAT_DL'			=> ((isset($index[$cat_id]['total'])) ? $index[$cat_id]['total'] : 0) + \oxpus\dlext\includes\classes\ dl_main::get_sublevel_count($cat_id),
+			'CAT_DL'			=> ((isset($index[$cat_id]['total'])) ? $index[$cat_id]['total'] : 0) + \oxpus\dlext\phpbb\classes\ dl_main::get_sublevel_count($cat_id),
 			'CAT_LAST_DL'		=> (isset($last_dl[$last_cat_id]['desc'])) ? $last_dl[$last_cat_id]['desc'] : '',
 			'CAT_LAST_USER'		=> (isset($last_dl[$last_cat_id]['user'])) ? $last_dl[$last_cat_id]['user'] : '',
 			'CAT_LAST_TIME'		=> (isset($last_dl[$last_cat_id]['time'])) ? $last_dl[$last_cat_id]['time'] : '',
@@ -201,7 +201,7 @@ if (sizeof($index) > 0)
 			{
 				$sub_id = $cat_sublevel['cat_id'][$j];
 				$mini_icon = array();
-				$mini_icon = \oxpus\dlext\includes\classes\ dl_status::mini_status_cat($sub_id, $sub_id);
+				$mini_icon = \oxpus\dlext\phpbb\classes\ dl_status::mini_status_cat($sub_id, $sub_id);
 
 				if ($mini_icon[$sub_id]['new'] && !$mini_icon[$sub_id]['edit'])
 				{
@@ -222,7 +222,7 @@ if (sizeof($index) > 0)
 
 				$this->template->assign_block_vars($block.'.sub.sublevel_row', array(
 					'L_SUBLEVEL' => $cat_sublevel['cat_name'][$j],
-					'SUBLEVEL_COUNT' => $cat_sublevel['total'][$j] + \oxpus\dlext\includes\classes\ dl_main::get_sublevel_count($cat_sublevel['cat_id'][$j]),
+					'SUBLEVEL_COUNT' => $cat_sublevel['total'][$j] + \oxpus\dlext\phpbb\classes\ dl_main::get_sublevel_count($cat_sublevel['cat_id'][$j]),
 					'M_SUBLEVEL' => $mini_cat_icon,
 					'M_SUBLEVEL_ICON' => (isset($cat_sublevel['cat_icon'][$j])) ? $cat_sublevel['cat_icon'][$j] : '',
 					'U_SUBLEVEL' => $cat_sublevel['cat_path'][$j])
@@ -246,7 +246,7 @@ else
 if ($cat)
 {
 	$index_cat = array();
-	$index_cat = \oxpus\dlext\includes\classes\ dl_main::full_index($this->helper, $cat);
+	$index_cat = \oxpus\dlext\phpbb\classes\ dl_main::full_index($this->helper, $cat);
 	$total_downloads = (isset($index_cat[$cat]['total'])) ? $index_cat[$cat]['total'] : 0;
 
 	if ($total_downloads > $this->config['dl_links_per_page'])
@@ -279,15 +279,15 @@ if ($cat)
 		$this->template->assign_var('S_CAT_RULE', true);
 	}
 
-	if (\oxpus\dlext\includes\classes\ dl_auth::user_auth($cat, 'auth_mod'))
+	if (\oxpus\dlext\phpbb\classes\ dl_auth::user_auth($cat, 'auth_mod'))
 	{
 		$this->template->assign_var('S_MODCP', true);
 	}
 
-	$physical_size = \oxpus\dlext\includes\classes\ dl_physical::read_dl_sizes();
+	$physical_size = \oxpus\dlext\phpbb\classes\ dl_physical::read_dl_sizes();
 	if ($physical_size < $this->config['dl_physical_quota'] && (!$this->config['dl_stop_uploads']) || ($this->auth->acl_get('a_') && $this->user->data['is_registered']))
 	{
-		if (\oxpus\dlext\includes\classes\ dl_auth::user_auth($cat, 'auth_up'))
+		if (\oxpus\dlext\phpbb\classes\ dl_auth::user_auth($cat, 'auth_up'))
 		{
 			$this->template->assign_var('S_DL_UPLOAD', true);
 		}
@@ -320,7 +320,7 @@ if ($cat)
 		if ($index_cat[$cat]['cat_traffic'] && $cat_traffic > 0)
 		{
 			$cat_traffic = ($cat_traffic > $cat_overall_traffic && $cat_limit == true) ? $cat_overall_traffic : $cat_traffic;
-			$cat_traffic = \oxpus\dlext\includes\classes\ dl_format::dl_size($cat_traffic);
+			$cat_traffic = \oxpus\dlext\phpbb\classes\ dl_format::dl_size($cat_traffic);
 
 			$this->template->assign_var('S_CAT_TRAFFIC', true);
 		}
@@ -336,9 +336,9 @@ $i = 0;
 if ($cat && $total_downloads)
 {
 	$dl_files = array();
-	$dl_files = \oxpus\dlext\includes\classes\ dl_files::files($cat, $sql_sort_by, $sql_order, $start, $this->config['dl_links_per_page'], 'id, description, desc_uid, desc_bitfield, desc_flags, hack_version, extern, file_size, klicks, overall_klicks, rating, long_desc, long_desc_uid, long_desc_bitfield, long_desc_flags, add_user');
+	$dl_files = \oxpus\dlext\phpbb\classes\ dl_files::files($cat, $sql_sort_by, $sql_order, $start, $this->config['dl_links_per_page'], 'id, description, desc_uid, desc_bitfield, desc_flags, hack_version, extern, file_size, klicks, thumbnail, overall_klicks, rating, long_desc, long_desc_uid, long_desc_bitfield, long_desc_flags, add_user');
 
-	if (\oxpus\dlext\includes\classes\ dl_auth::cat_auth_comment_read($cat))
+	if (\oxpus\dlext\phpbb\classes\ dl_auth::cat_auth_comment_read($cat))
 	{
 		$sql = 'SELECT COUNT(dl_id) AS total_comments, id FROM ' . DL_COMMENTS_TABLE . '
 			WHERE cat_id = ' . (int) $cat . '
@@ -357,7 +357,7 @@ if ($cat && $total_downloads)
 	for ($i = 0; $i < sizeof($dl_files); $i++)
 	{
 		$file_id = $dl_files[$i]['id'];
-		$mini_file_icon = \oxpus\dlext\includes\classes\ dl_status::mini_status_file($cat, $file_id);
+		$mini_file_icon = \oxpus\dlext\phpbb\classes\ dl_status::mini_status_file($cat, $file_id);
 
 		$description = $dl_files[$i]['description'];
 		$file_url = $this->helper->route('oxpus_dlext_controller', array('view' => 'detail', 'df_id' => $file_id));
@@ -374,6 +374,9 @@ if ($cat && $total_downloads)
 
 		$description = censor_text($description);
 		$description = generate_text_for_display($description, $desc_uid, $desc_bitfield, $desc_flags);
+		
+		$thumbnail_name = $dl_files[$i]['thumbnail'];
+		$thumbnail = DL_EXT_THUMBS_WEB_FOLDER . str_replace(" ", "%20", $thumbnail_name);
 
 		$long_desc = $dl_files[$i]['long_desc'];
 		$long_desc = censor_text($long_desc);
@@ -385,12 +388,12 @@ if ($cat && $total_downloads)
 		}
 
 		$dl_status = array();
-		$dl_status = \oxpus\dlext\includes\classes\ dl_status::status($file_id, $this->helper);
+		$dl_status = \oxpus\dlext\phpbb\classes\ dl_status::status($file_id, $this->helper);
 		$status = $dl_status['status'];
 
 		if ($dl_files[$i]['file_size'])
 		{
-			$file_size = \oxpus\dlext\includes\classes\ dl_format::dl_size($dl_files[$i]['file_size'], 2);
+			$file_size = \oxpus\dlext\phpbb\classes\ dl_format::dl_size($dl_files[$i]['file_size'], 2);
 		}
 		else
 		{
@@ -436,19 +439,19 @@ if ($cat && $total_downloads)
 		switch ($this->config['dl_cat_edit'])
 		{
 			case 1:
-				if (\oxpus\dlext\includes\classes\ dl_auth::user_admin())
+				if (\oxpus\dlext\phpbb\classes\ dl_auth::user_admin())
 				{
 					$cat_edit_link = true;
 				}
 			break;
 			case 2:
-				if (\oxpus\dlext\includes\classes\ dl_auth::user_admin() || \oxpus\dlext\includes\classes\ dl_auth::user_auth($cat, 'auth_mod'))
+				if (\oxpus\dlext\phpbb\classes\ dl_auth::user_admin() || \oxpus\dlext\phpbb\classes\ dl_auth::user_auth($cat, 'auth_mod'))
 				{
 					$cat_edit_link = true;
 				}
 			break;
 			case 3:
-				if (\oxpus\dlext\includes\classes\ dl_auth::user_admin() || \oxpus\dlext\includes\classes\ dl_auth::user_auth($cat, 'auth_mod') || ($this->config['dl_edit_own_downloads'] && $dl_files[$i]['add_user'] == $this->user->data['user_id']))
+				if (\oxpus\dlext\phpbb\classes\ dl_auth::user_admin() || \oxpus\dlext\phpbb\classes\ dl_auth::user_auth($cat, 'auth_mod') || ($this->config['dl_edit_own_downloads'] && $dl_files[$i]['add_user'] == $this->user->data['user_id']))
 				{
 					$cat_edit_link = true;
 				}
@@ -462,9 +465,11 @@ if ($cat && $total_downloads)
 			'MINI_IMG'				=> $mini_file_icon,
 			'HACK_VERSION'			=> $hack_version,
 			'LONG_DESC'				=> $long_desc,
-			'RATING_IMG'			=> \oxpus\dlext\includes\classes\ dl_format::rating_img($rating_points, $s_rating_perm, $file_id),
+			'RATING_IMG'			=> \oxpus\dlext\phpbb\classes\ dl_format::rating_img($rating_points, $s_rating_perm, $file_id),
 			'RATINGS'				=> $rating_count_text,
 			'STATUS'				=> $status,
+			'THUMBNAIL'				=> $thumbnail,
+			'THUMBNAIL_NAME'		=> $thumbnail_name,
 			'FILE_SIZE'				=> $file_size,
 			'FILE_KLICKS'			=> $file_klicks,
 			'FILE_OVERALL_KLICKS'	=> $file_overall_klicks,
@@ -473,7 +478,7 @@ if ($cat && $total_downloads)
 			'U_FILE'				=> $file_url)
 		);
 
-		if ($index_cat[$cat]['comments'] && (\oxpus\dlext\includes\classes\ dl_auth::cat_auth_comment_read($cat) || \oxpus\dlext\includes\classes\ dl_auth::cat_auth_comment_post($cat)))
+		if ($index_cat[$cat]['comments'] && (\oxpus\dlext\phpbb\classes\ dl_auth::cat_auth_comment_read($cat) || \oxpus\dlext\phpbb\classes\ dl_auth::cat_auth_comment_post($cat)))
 		{
 			$this->template->assign_block_vars('downloads.comments', array('U_COMMENT' => $this->helper->route('oxpus_dlext_controller', array('view' => 'comment', 'action' => 'view', 'cat_id' => $cat, 'df_id' => $file_id))));
 		}
@@ -484,7 +489,7 @@ if ($i)
 {
 	$this->template->assign_var('S_DOWNLOAD_ROWS', true);
 
-	if ($index_cat[$cat]['comments'] && \oxpus\dlext\includes\classes\ dl_auth::cat_auth_comment_read($cat))
+	if ($index_cat[$cat]['comments'] && \oxpus\dlext\phpbb\classes\ dl_auth::cat_auth_comment_read($cat))
 	{
 		$sql = 'SELECT COUNT(dl_id) AS total_comments, id FROM ' . DL_COMMENTS_TABLE . '
 			WHERE cat_id = ' . (int) $cat . '
@@ -511,7 +516,7 @@ if ($cat && !$total_downloads)
 $this->template->assign_vars(array(
 	'CAT_RULE'		=> (isset($cat_rule)) ? $cat_rule : '',
 	'CAT_TRAFFIC'	=> (isset($cat_traffic)) ? $this->language->lang('DL_CAT_TRAFFIC_MAIN', $cat_traffic) : '',
-	'DL_MODCP'		=> (isset($total_downloads) && $total_downloads <> 0 && \oxpus\dlext\includes\classes\ dl_auth::user_auth($cat, 'auth_mod')) ? $this->language->lang('DL_MODCP_MOD_AUTH', '<a href="' . $this->helper->route('oxpus_dlext_controller', array('view' => 'modcp', 'cat_id' => $cat)) . '">', '</a>') : '',
+	'DL_MODCP'		=> (isset($total_downloads) && $total_downloads <> 0 && \oxpus\dlext\phpbb\classes\ dl_auth::user_auth($cat, 'auth_mod')) ? $this->language->lang('DL_MODCP_MOD_AUTH', '<a href="' . $this->helper->route('oxpus_dlext_controller', array('view' => 'modcp', 'cat_id' => $cat)) . '">', '</a>') : '',
 	'T_DL_CAT'		=> (isset($index[$cat]['cat_name']) && $cat) ? $index[$cat]['cat_name'] : $this->language->lang('DL_CAT_NAME'),
 	'DL_UPLOAD'		=> $this->helper->route('oxpus_dlext_controller', array('view' => 'upload', 'cat_id' => $cat)),
 	'PHPEX'			=> $this->php_ext,

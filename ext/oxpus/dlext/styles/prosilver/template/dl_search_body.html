@@ -1,0 +1,72 @@
+{% INCLUDE 'dl_header.html' %}
+
+<h2>{{ lang('DL_SEARCH_DOWNLOAD') }}</h2>
+
+<br />
+
+<form action="{{ S_DL_SEARCH_ACTION }}" method="post" >
+
+	<div class="panel">
+		<div class="inner">
+
+			<h3>{{ lang('SEARCH_FOR') }}</h3>
+
+			<fieldset>
+
+				<dl>
+					<dt>{{ lang('SEARCH_KEYWORDS') }}</dt>
+					<dd class="time"><input type="text" class="inputbox" name="search_keywords" size="50" maxlength="255" value="" /></dd>
+				</dl>
+				<dl>
+					<dt>{{ lang('DL_SEARCH_AUTHOR') }}</dt>
+					<dd class="time"><input type="text" class="inputbox" name="search_author" size="50" maxlength="255" value="" /></dd>
+				</dl>
+
+			</fieldset>
+
+		</div>
+	</div>
+
+	<div class="panel bg2">
+		<div class="inner">
+
+			<h3>{{ lang('SEARCH_OPTIONS') }}</h3>
+
+			<fieldset>
+
+				<dl>
+					<dt>{{ lang('DL_CAT_NAME') }}</dt>
+					<dd class="time">{{ S_DL_CATEGORY_OPTIONS }}</dd>
+				</dl>
+				<dl>
+					<dt>{{ lang('SEARCH_WITHIN') }}</dt>
+					<dd class="time">{{ S_DL_SORT_OPTIONS }}</dd>
+				</dl>
+				<dl>
+					<dt>{{ lang('DL_ORDER') }}</dt>
+					<dd class="time">{{ S_DL_SORT_ORDER }}</dd>
+				</dl>
+				<dl>
+					<dt>{{ lang('DL_SEARCH_TYPE') }}</dt>
+					<dd class="time">
+						<label><input type="radio" name="search_type" value="0" checked="checked" /> {{ lang('DL_SEARCH_TYPE_ALL') }}</label><br />
+						<label><input type="radio" name="search_type" value="1" /> {{ lang('DL_SEARCH_TYPE_SINGLE') }}</label>
+					</dd>
+				</dl>
+
+			</fieldset>
+
+			<fieldset class="submit-buttons">
+				<input type="submit" name="submit" value="{{ lang('SEARCH') }}" class="button icon-button" />
+				{{ S_FORM_TOKEN }}
+			</fieldset>
+
+			</div>
+
+	</div>
+
+</form>
+
+<br />
+
+{% INCLUDE 'dl_footer.html' %}

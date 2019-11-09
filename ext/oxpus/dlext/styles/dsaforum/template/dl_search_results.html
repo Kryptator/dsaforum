@@ -1,0 +1,63 @@
+{% INCLUDE 'dl_header.html' %}
+
+	<h2>{{ lang('DL_SEARCH_RESULTS') }}</h2>
+
+	<br />
+
+	<div class="forabg downloads">
+		<div class="inner">
+
+		<ul class="topiclist">
+			<li class="header">
+				<dl>
+					<dt>{{ lang('DL_FILE_DESCRIPTION') }}</dt>
+					<dd class="lastpost dl-cell-block"><span>&nbsp;</span></dd>
+				</dl>
+			</li>
+		</ul>
+
+		<ul class="topiclist topics">
+		{% for searchresults in loops.searchresults %}
+			<li class="row{% if searchresults.S_ROW_COUNT is even %} bg1{% else %} bg2{% endif %} dlrow">
+				<dl>
+					<dt>
+						{% if searchresults.THUMBNAIL_NAME %}<div class="dl-image"><img src="{{ searchresults.THUMBNAIL }}" /></div>{% endif %}
+						
+						<div class="postbody">
+						<strong>{{ searchresults.STATUS }}</strong> <a href="{{ searchresults.U_FILE_LINK }}" class="topictitle">{{ searchresults.DESCRIPTION }}</a> {{ searchresults.MINI_ICON }}
+						{{ searchresults.LONG_DESC }}</div>
+					</dt>
+					<dd class="lastpost">
+						<div><strong>{{ lang('DL_CAT_NAME') }}{{ lang('COLON') }} </strong><a href="{{ searchresults.U_CAT_LINK }}">{{ searchresults.CAT_NAME }}</a></div>
+						<div><strong>{{ lang('DL_FILE_NAME') }}{{ lang('COLON') }} </strong>{{ searchresults.FILE_NAME }}</div>
+					</dd>
+				</dl>
+			</li>
+		{% endfor %}
+		</ul>
+
+		{% if S_NO_RESULTS %}
+		<div class="panel">
+			<div class="inner">
+			<strong>{{ lang('NO_SEARCH_RESULTS') }}</strong>
+			</div>
+		</div>
+		{% endif %}
+
+		</div>
+	</div>
+
+	{% if loops.pagination|length or TOTAL_DL %}
+		<div class="pagination">
+			{{ TOTAL_DL }}
+			{% if loops.pagination|length %}
+				{% INCLUDE 'pagination.html' %}
+			{% else %}
+				&bull; {{ PAGE_NUMBER }}
+			{% endif %}
+		</div>
+	{% endif %}
+
+<br />
+
+{% INCLUDE 'dl_footer.html' %}

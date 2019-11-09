@@ -1,0 +1,94 @@
+{% INCLUDE 'dl_header.html' %}
+
+<h2 class="dl-left">{{ lang('DL_CAT_TITLE') }}</h2>
+
+<br />
+
+<div class="dl-right"><a href="{{ U_DL_SEARCH }}" class="button icon-button">{{ lang('DL_SEARCH_DOWNLOAD') }}</a></div>
+
+<div class="clear"></div>
+
+<br />
+
+<div class="forabg">
+	<div class="inner">
+	<ul class="topiclist">
+		<li class="header">
+			<dl>
+				<dt>{{ lang('DL_CAT_NAME') }} / {{ lang('DL_FILE_DESCRIPTION') }}</dt>
+				<dd class="posts">{{ lang('DL_CAT_FILES') }}</dd>
+				<dd>{{ lang('DL_LATEST_DOWNLOAD') }}</dd>
+			</dl>
+		</li>
+	</ul>
+	<ul class="topiclist downloadlist forums">
+		{% if S_NO_CATEGORY %}
+		<li class="row">
+			<dl>
+				<dt>{{ lang('DL_NO_CATEGORY_INDEX') }}</dt>
+			</dl>
+		</li>
+		{% else %}
+		{% for downloads in loops.downloads %}
+		<li class="row dlTooltip" id="{{ downloads.CAT_ID }}">
+			<dl>
+				<dt>
+					{% if downloads.CAT_ICON %}
+					<span class="forum-image"><img src="{{ downloads.CAT_ICON }}" alt="" title="{{ downloads.CAT_NAME }}" /></span>
+					{% else %}
+					<span class="forum-image">{{ downloads.MINI_IMG }}</span>
+					{% endif %}
+					<a href="{{ downloads.U_CAT_VIEW }}" class="forumtitle" title="">{{ downloads.CAT_NAME }}</a><br />
+					<div class="dl-index-desc{% if S_ENABLE_DESC_HIDE %} noshow{% endif %} list-inner" id="desc_{{ downloads.CAT_ID }}"><br />{{ downloads.CAT_DESC }}</div>
+					{% if downloads.pagination|length %}
+					<div class="pagination">
+						<ul>
+						{% for pagination in downloads.pagination %}
+							{% if pagination.S_IS_PREV %}
+							{% elseif pagination.S_IS_CURRENT %}<li class="active"><span>{{ pagination.PAGE_NUMBER }}</span></li>
+							{% elseif pagination.S_IS_ELLIPSIS %}<li class="ellipsis"><span>{{ lang('ELLIPSIS') }}</span></li>
+							{% elseif pagination.S_IS_NEXT %}
+							{% else %}<li><a href="{{ pagination.PAGE_URL }}">{{ pagination.PAGE_NUMBER }}</a></li>
+							{% endif %}
+						{% endfor %}
+						</ul>
+					</div>
+					{% endif %}
+					{% if S_SUB_ON_INDEX %}
+					{% for sub in downloads.sub %}
+					<br />
+					{% for sublevel_row in sub.sublevel_row %}
+					<div class="dl-padding-left-3-5">
+						{{ sublevel_row.M_SUBLEVEL }}
+						{% if sublevel_row.M_SUBLEVEL_ICON %}
+						<img src="{{ sublevel_row.M_SUBLEVEL_ICON }}" alt="" title="{{ sublevel_row.L_SUBLEVEL }}" class="dl-subfolder-small" />{% endif %}
+						 &nbsp; <a href="{{ sublevel_row.U_SUBLEVEL }}" class="small"{% if sublevel_row.SUBLEVEL_COUNT %} title="{{ sublevel_row.SUBLEVEL_COUNT }} {{ lang('DL_CAT_FILES') }}"{% endif %}><strong>{{ sublevel_row.L_SUBLEVEL }}</strong></a>
+					</div>
+					{% endfor %}
+					{% endfor %}
+					{% endif %}
+				</dt>
+				<dd class="posts">
+					<strong>{{ downloads.CAT_DL }}</strong>
+				</dd>
+				<dd class="lastpost">
+					{% if downloads.CAT_LAST_DL %}
+					<div class="dl-padding-left-1">
+						<a href="{{ downloads.U_CAT_LAST_LINK }}">{{ downloads.CAT_LAST_DL }}</a><br />
+	                    <a href="{{ downloads.U_CAT_LAST_USER }}">{{ downloads.CAT_LAST_USER }}</a>
+						{% if downloads.CAT_LAST_TIME %}&nbsp;{{ downloads.CAT_LAST_TIME }}{% endif %}
+					</div>
+					{% endif %}
+                </dd>
+			</dl>
+		</li>
+		{% endfor %}
+		{% endif %}
+	</ul>
+
+	</div>
+</div>
+
+<br />
+
+{% INCLUDE 'dl_footer.html' %}

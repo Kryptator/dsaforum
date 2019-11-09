@@ -1,0 +1,74 @@
+{% INCLUDE 'dl_header.html' %}
+
+{% if S_CAT_RULE %}
+<div class="rules">
+	<div class="inner">
+
+	<span>{{ CAT_RULE }}</span>
+
+	</div>
+</div>
+{% endif %}
+
+<h2>{{ STATUS }} <label>{{ DESCRIPTION }} {{ MINI_IMG }}</label></h2>
+
+<br />
+
+<div class="panel bg1">
+	<div class="tablewrap">
+		<div class="panel">
+
+			<div class="postbody dl-width-100">
+				<h3>{{ lang('DL_HACK_VERSION') }}{{ lang('COLON') }} {{ VER_VERSION }}</h3>
+				{% if not S_ACTIVE %}<br /><div class="rules">{{ lang('DL_NOT_ACTIVE') }}</div>{% endif %}
+				{% if U_VER_EDIT %}
+				<ul class="post-buttons">
+					<li class="rightside">
+                        <a href="{{ U_VER_EDIT }}" title="{{ lang('DL_EDIT_FILE') }}" class="button button-icon-only">
+                            <i class="icon fa-pencil fa-fw"></i><span>{{ lang('DL_EDIT_FILE') }}</span>
+                        </a>
+                    </li>
+				</ul>
+				{% endif %}
+				<div class="content">{{ VER_DESC }}</div>
+			</div>
+
+			<div class="notice dl-text-center"><strong>{{ lang('DL_FILE_NAME') }}{{ lang('COLON') }}</strong> {{ FILE_NAME }}{% if FILE_SIZE %}, <strong>{{ lang('DL_FILE_SIZE') }}{{ lang('COLON') }}</strong> {{ FILE_SIZE }}{% endif %}</div>
+
+			{% for images in loops.images %}
+			{% if images.S_FIRST_ROW %}
+			<br />
+			<h3>{{ lang('DL_IMAGES') }}{{ lang('COLON') }}</h3>
+			<dl>
+				<ul class="dl-detail-row">
+			{% endif %}
+					<li class="dl-left dl-margin-right-small">{% if S_DL_POPUPIMAGE %}<a href="{{ images.LINK }}" title="{{ images.NAME }}" rel="prettyPhoto[pp_gal]">{% endif %}<img src="{{ images.LINK }}" alt="{{ images.NAME }}" title="{{ images.NAME }}" class="dl-thumb-box" />{% if S_DL_POPUPIMAGE %}</a>{% endif %}</li>
+			{% if images.S_LAST_ROW %}
+				</ul>
+			</dl>
+			{% endif %}
+			{% endfor %}
+
+			{% for files in loops.files %}
+			{% if files.S_FIRST_ROW %}
+			<br />
+			<h3>{{ lang('DL_FILES_TITLE') }}{{ lang('COLON') }}</h3>
+			<dl>
+				<ul class="dl-detail-row">
+			{% endif %}
+					<li class="dl-left dl-margin-right-small">{% if files.S_AUTH %}<a href="{{ files.LINK }}" title="{{ files.NAME }}">{% endif %}{{ files.NAME }}{% if files.S_AUTH %}</a>{% endif %}</li>
+			{% if files.S_LAST_ROW %}
+				</ul>
+			</dl>
+			{% endif %}
+			{% endfor %}
+
+		</div>
+	</div>
+</div>
+
+<div class="clearfix"></div>
+
+<br />
+
+{% INCLUDE 'dl_footer.html' %}

@@ -63,7 +63,7 @@ if ($search_keywords != '' && !$search_author)
 	$search_keywords = str_replace(array('sql', 'union', '  ', ' ', '*', '?', '%'), ' ', strtolower($search_keywords));
 
 	$access_cats		= array();
-	$access_cats		= \oxpus\dlext\includes\classes\ dl_main::full_index($this->helper, 0, 0, 0, 1);
+	$access_cats		= \oxpus\dlext\phpbb\classes\ dl_main::full_index($this->helper, 0, 0, 0, 1);
 	$sql_access_cats	= ($this->auth->acl_get('a_') && $this->user->data['is_registered']) ? '' : ' AND ' . $this->db->sql_in_set('d.cat', $access_cats) . ' ';
 
 	$sql_cat			= ($search_cat == -1) ? '' : ' AND d.cat = ' . (int) $search_cat;
@@ -105,7 +105,7 @@ if ($search_keywords != '' && !$search_author)
 		{
 			if ($search_in_fields == 'all')
 			{
-				$search_result = $row['file_name'] . $row['description'] . $row['long_desc'] . $row['test'] . $row['mod_desc'] . $row['warning'] . $row['todo'] . $row['req'];
+				$search_result = $row['file_name'] . $row['description'] . $row['long_desc'] . $row['test'] . $row['thumbnail'] . $row['mod_desc'] . $row['warning'] . $row['todo'] . $row['req'];
 			}
 			else
 			{
@@ -176,14 +176,14 @@ if ($search_keywords != '' && !$search_author)
 			$u_file_link	= $this->helper->route('oxpus_dlext_controller', array('view' => 'detail', 'df_id' => $file_id));
 
 			$dl_status		= array();
-			$dl_status		= \oxpus\dlext\includes\classes\ dl_status::status($file_id, $this->helper);
+			$dl_status		= \oxpus\dlext\phpbb\classes\ dl_status::status($file_id, $this->helper);
 
 			$status			= $dl_status['status'];
 			$file_name		= $dl_status['file_name'];
 
 			if (isset($index[$cat_id]['parent']))
 			{
-				$mini_icon = \oxpus\dlext\includes\classes\ dl_status::mini_status_file($index[$cat_id]['parent'], $file_id);
+				$mini_icon = \oxpus\dlext\phpbb\classes\ dl_status::mini_status_file($index[$cat_id]['parent'], $file_id);
 			}
 			else
 			{
@@ -200,17 +200,22 @@ if ($search_keywords != '' && !$search_author)
 			$description		= censor_text($description);
 			$description		= generate_text_for_display($description, $desc_uid, $desc_bitfield, $desc_flags);
 
+			$thumbnail_name = $row['thumbnail'];
+			$thumbnail = DL_EXT_THUMBS_WEB_FOLDER . str_replace(" ", "%20", $thumbnail_name);
+			
 			$long_desc			= $row['long_desc'];
 			$long_desc_uid		= $row['long_desc_uid'];
 			$long_desc_bitfield	= $row['long_desc_bitfield'];
 			$long_desc_flags	= $row['long_desc_flags'];
-			$long_desc			= censor_text($long_desc);z
+			$long_desc			= censor_text($long_desc);
 			$long_desc			= generate_text_for_display($long_desc, $long_desc_uid, $long_desc_bitfield, $long_desc_flags);
 
 			$this->template->assign_block_vars('searchresults', array(
 				'STATUS'		=> $status,
 				'CAT_NAME'		=> $cat_name,
 				'DESCRIPTION'	=> $description,
+				'THUMBNAIL'		=> $thumbnail,
+				'THUMBNAIL_NAME'	=> $thumbnail_name,
 				'MINI_ICON'		=> $mini_icon,
 				'FILE_NAME'		=> $file_name,
 				'LONG_DESC'		=> $long_desc,
@@ -267,7 +272,7 @@ else if ($search_author)
 	}
 
 	$access_cats		= array();
-	$access_cats		= \oxpus\dlext\includes\classes\ dl_main::full_index($this->helper, 0, 0, 0, 1);
+	$access_cats		= \oxpus\dlext\phpbb\classes\ dl_main::full_index($this->helper, 0, 0, 0, 1);
 
 	$sql_access_cats	= ($this->auth->acl_get('a_') && $this->user->data['is_registered']) ? '' : ' AND ' . $this->db->sql_in_set('cat', $access_cats);
 	$sql_access_dls		= ($this->auth->acl_get('a_') && $this->user->data['is_registered']) ? '' : ' AND ' . $this->db->sql_in_set('d.cat', $access_cats);
@@ -321,12 +326,12 @@ else if ($search_author)
 			$u_file_link	= $this->helper->route('oxpus_dlext_controller', array('view' => 'detail', 'df_id' => $file_id));
 
 			$dl_status		= array();
-			$dl_status		= \oxpus\dlext\includes\classes\ dl_status::status($file_id, $this->helper);
+			$dl_status		= \oxpus\dlext\phpbb\classes\ dl_status::status($file_id, $this->helper);
 
 			$status			= $dl_status['status'];
 			$file_name		= $dl_status['file_name'];
 
-			$mini_icon		= (isset($index[$cat_id]['parent'])) ? \oxpus\dlext\includes\classes\ dl_status::mini_status_file($index[$cat_id]['parent'], $file_id) : '';
+			$mini_icon		= (isset($index[$cat_id]['parent'])) ? \oxpus\dlext\phpbb\classes\ dl_status::mini_status_file($index[$cat_id]['parent'], $file_id) : '';
 
 			$cat_name		= $row['cat_name'];
 			$u_cat_link		= $this->helper->route('oxpus_dlext_controller', array('cat' => $cat_id));
@@ -365,7 +370,7 @@ else
 	* default entry point of download searching
 	*/
 	$select_categories = '<select name="search_cat"><option value="-1">' . $this->language->lang('DL_ALL') . '</option>';
-	$select_categories .= \oxpus\dlext\includes\classes\ dl_extra::dl_dropdown(0, 0, 0, 'auth_view');
+	$select_categories .= \oxpus\dlext\phpbb\classes\ dl_extra::dl_dropdown(0, 0, 0, 'auth_view');
 	$select_categories .= '</select>';
 
 	$s_sort_dir = '<select name="sort_dir">';

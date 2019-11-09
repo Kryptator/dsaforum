@@ -42,7 +42,7 @@ $this->template->assign_vars(array(
 );
 
 $dl_files = array();
-$dl_files = \oxpus\dlext\includes\classes\ dl_files::all_files(0, '', '', '', 0, 0, 'id, cat');
+$dl_files = \oxpus\dlext\phpbb\classes\ dl_files::all_files(0, '', '', '', 0, 0, 'id, cat');
 
 $total_files = 0;
 
@@ -52,7 +52,7 @@ if (sizeof($dl_files))
 	{
 		$cat_id = $dl_files[$i]['cat'];
 		$cat_auth = array();
-		$cat_auth = \oxpus\dlext\includes\classes\ dl_auth::dl_cat_auth($cat_id);
+		$cat_auth = \oxpus\dlext\phpbb\classes\ dl_auth::dl_cat_auth($cat_id);
 		if (isset($cat_auth['auth_view']) && $cat_auth['auth_view'] || isset($index[$cat_id]['auth_view']) && $index[$cat_id]['auth_view'] || ($this->auth->acl_get('a_') && $this->user->data['is_registered']))
 		{
 			$total_files++;
@@ -86,7 +86,7 @@ if ($total_files > $this->config['dl_links_per_page'])
 $sql_sort_by = ($sql_sort_by == 'sort') ? 'cat, sort' : $sql_sort_by;
 
 $dl_files = array();
-$dl_files = \oxpus\dlext\includes\classes\ dl_files::all_files(0, '', '', ' ORDER BY ' . $sql_sort_by . ' ' . $sql_order . ' LIMIT ' . $start . ', ' . $this->config['dl_links_per_page'], 0, 0, 'cat, id, description, desc_uid, desc_bitfield, desc_flags, hack_version, extern, file_size, klicks, overall_klicks, rating');
+$dl_files = \oxpus\dlext\phpbb\classes\ dl_files::all_files(0, '', '', ' ORDER BY ' . $sql_sort_by . ' ' . $sql_order . ' LIMIT ' . $start . ', ' . $this->config['dl_links_per_page'], 0, 0, 'cat, id, description, desc_uid, desc_bitfield, desc_flags, hack_version, extern, thumbnail, file_size, klicks, overall_klicks, rating');
 
 if (sizeof($dl_files))
 {
@@ -94,7 +94,7 @@ if (sizeof($dl_files))
 	{
 		$cat_id = $dl_files[$i]['cat'];
 		$cat_auth = array();
-		$cat_auth = \oxpus\dlext\includes\classes\ dl_auth::dl_cat_auth($cat_id);
+		$cat_auth = \oxpus\dlext\phpbb\classes\ dl_auth::dl_cat_auth($cat_id);
 		if (isset($cat_auth['auth_view']) && $cat_auth['auth_view'] || isset($index[$cat_id]['auth_view']) && $index[$cat_id]['auth_view'] || ($this->auth->acl_get('a_') && $this->user->data['is_registered']))
 		{
 			$cat_name = $index[$cat_id]['cat_name'];
@@ -103,7 +103,7 @@ if (sizeof($dl_files))
 			$cat_view = $index[$cat_id]['nav_path'];
 
 			$file_id = $dl_files[$i]['id'];
-			$mini_file_icon = \oxpus\dlext\includes\classes\ dl_status::mini_status_file($cat_id, $file_id);
+			$mini_file_icon = \oxpus\dlext\phpbb\classes\ dl_status::mini_status_file($cat_id, $file_id);
 
 			$description = $dl_files[$i]['description'];
 			$desc_uid = $dl_files[$i]['desc_uid'];
@@ -111,18 +111,19 @@ if (sizeof($dl_files))
 			$desc_flags = $dl_files[$i]['desc_flags'];
 			$description = censor_text($description);
 			$description = generate_text_for_display($description, $desc_uid, $desc_bitfield, $desc_flags);
-
+			$thumbnail_name = $dl_files[$i]['thumbnail'];
+			$thumbnail = DL_EXT_THUMBS_WEB_FOLDER . str_replace(" ", "%20", $thumbnail_name);
 			$dl_link = $this->helper->route('oxpus_dlext_controller', array('view' => 'detail', 'df_id' => $file_id));
 
 			$hack_version = '&nbsp;'.$dl_files[$i]['hack_version'];
 
 			$dl_status = array();
-			$dl_status = \oxpus\dlext\includes\classes\ dl_status::status($file_id, $this->helper);
+			$dl_status = \oxpus\dlext\phpbb\classes\ dl_status::status($file_id, $this->helper);
 			$status = $dl_status['status'];
 
 			if ($dl_files[$i]['file_size'])
 			{
-				$file_size = \oxpus\dlext\includes\classes\ dl_format::dl_size($dl_files[$i]['file_size'], 2);
+				$file_size = \oxpus\dlext\phpbb\classes\ dl_format::dl_size($dl_files[$i]['file_size'], 2);
 			}
 			else
 			{
@@ -164,10 +165,12 @@ if (sizeof($dl_files))
 				'FILE_OVERALL_KLICKS'	=> $file_overall_klicks,
 				'FILE_SIZE'				=> $file_size,
 				'HACK_VERSION'			=> $hack_version,
-				'RATING_IMG'			=> \oxpus\dlext\includes\classes\ dl_format::rating_img($rating_points, $s_rating_perm, $file_id),
+				'RATING_IMG'			=> \oxpus\dlext\phpbb\classes\ dl_format::rating_img($rating_points, $s_rating_perm, $file_id),
 				'RATINGS'				=> $rating_count_text,
 				'STATUS'				=> $status,
 				'DF_ID'					=> $file_id,
+				'THUMBNAIL'				=> $thumbnail,
+				'THUMBNAIL_NAME'		=> $thumbnail_name,
 
 				'U_CAT_VIEW'			=> $cat_view,
 				'U_DL_LINK'				=> $dl_link)
