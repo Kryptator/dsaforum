@@ -554,6 +554,7 @@ fieldset.display-actions label select {
 	.column1, .column2, .left-box.profile-details {
 		float: none;
 		width: auto;
+		clear: both; /* Change V. 3.2.4*/
 	}
 
 	/* Polls
