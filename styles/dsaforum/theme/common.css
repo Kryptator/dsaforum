@@ -1250,6 +1250,12 @@ fieldset.fields1 dl.pmlist dd.recipients {
 	text-align: center;
 }
 
+.footer-row {
+	font-size: 10px;
+	line-height: 1.8;
+	margin: 0;
+}
+
 .small {
 	font-size: 0.9em !important;
 }
