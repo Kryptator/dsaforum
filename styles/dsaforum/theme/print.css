@@ -253,6 +253,7 @@ ol, ul {
 
 /* Misc page elements */
 div.spacer { clear: both; }
+code { display: block; }
 
 /* Accessibility tweaks: Mozilla.org */
 .skip_link { display: none; }
