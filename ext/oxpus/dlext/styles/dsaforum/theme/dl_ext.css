@@ -374,12 +374,10 @@ div.dl_new_close:hover, div.dl_help_close:hover, .dl-close-footer:hover
 
 .downloads ul.topiclist dt  {
 	padding: 10px;
-	margin-right: auto;
+	/*margin-right: auto;*/
 }
 
-ul.topiclist li.dlrow {
-	padding: 15px;
-}
+
 .downloads ul.topiclist dd.lastposts,
 .downloads ul.topiclist dd.lastpost {
 	padding-left: 10px;

@@ -1,6 +1,6 @@
 <br />
 
-<div class="forabg">
+<div class="forabg downloads">
 	<div class="inner">
 	<ul class="topiclist">
 		<li class="header">
@@ -22,8 +22,8 @@
 					<span class="forum-image">{{ subcats.MINI_IMG }}</span>
 					{% endif %}
 				
-					<a href="{{ subcats.U_CAT_VIEW }}" class="forumtitle" title="">{{ subcats.CAT_NAME }}</a><br />
-					<div class="dl-index-desc{% if S_ENABLE_DESC_HIDE %} noshow{% endif %}" id="desc_{{ subcats.CAT_ID }}"><br />{{ subcats.CAT_DESC }}</div>
+					<a href="{{ subcats.U_CAT_VIEW }}" class="forumtitle" title="">{{ subcats.CAT_NAME }}</a>
+					<div class="dl-index-desc{% if S_ENABLE_DESC_HIDE %} noshow{% endif %}" id="desc_{{ subcats.CAT_ID }}">{{ subcats.CAT_DESC }}</div>
 					{% if subcats.pagination|length %}
 					<div class="pagination">
 						<ul>

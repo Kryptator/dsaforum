@@ -10,7 +10,7 @@
 
 <br />
 
-<div class="forabg">
+<div class="forabg downloads">
 	<div class="inner">
 	<ul class="topiclist">
 		<li class="header">
@@ -38,8 +38,8 @@
 					{% else %}
 					<span class="forum-image">{{ downloads.MINI_IMG }}</span>
 					{% endif %}
-					<a href="{{ downloads.U_CAT_VIEW }}" class="forumtitle" title="">{{ downloads.CAT_NAME }}</a><br />
-					<div class="dl-index-desc{% if S_ENABLE_DESC_HIDE %} noshow{% endif %} list-inner" id="desc_{{ downloads.CAT_ID }}"><br />{{ downloads.CAT_DESC }}</div>
+					<a href="{{ downloads.U_CAT_VIEW }}" class="forumtitle" title="">{{ downloads.CAT_NAME }}</a>
+					<div class="dl-index-desc{% if S_ENABLE_DESC_HIDE %} noshow{% endif %} list-inner" id="desc_{{ downloads.CAT_ID }}">{{ downloads.CAT_DESC }}</div>
 					{% if downloads.pagination|length %}
 					<div class="pagination">
 						<ul>
@@ -58,11 +58,11 @@
 					{% for sub in downloads.sub %}
 					<br />
 					{% for sublevel_row in sub.sublevel_row %}
-					<div class="dl-padding-left-3-5">
-						{{ sublevel_row.M_SUBLEVEL }}
+					<div class="dl-padding-left-3-5 subcat">
+						
 						{% if sublevel_row.M_SUBLEVEL_ICON %}
 						<img src="{{ sublevel_row.M_SUBLEVEL_ICON }}" alt="" title="{{ sublevel_row.L_SUBLEVEL }}" class="dl-subfolder-small" />{% endif %}
-						 &nbsp; <a href="{{ sublevel_row.U_SUBLEVEL }}" class="small"{% if sublevel_row.SUBLEVEL_COUNT %} title="{{ sublevel_row.SUBLEVEL_COUNT }} {{ lang('DL_CAT_FILES') }}"{% endif %}><strong>{{ sublevel_row.L_SUBLEVEL }}</strong></a>
+						 &nbsp; <a href="{{ sublevel_row.U_SUBLEVEL }}" class="small"{% if sublevel_row.SUBLEVEL_COUNT %} title="{{ sublevel_row.SUBLEVEL_COUNT }} {{ lang('DL_CAT_FILES') }}"{% endif %}><strong>{{ sublevel_row.L_SUBLEVEL }} {% if sublevel_row.SUBLEVEL_COUNT %} ({{ sublevel_row.SUBLEVEL_COUNT }}){% endif %}</strong> </a>
 					</div>
 					{% endfor %}
 					{% endfor %}
