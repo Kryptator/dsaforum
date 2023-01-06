@@ -31,10 +31,10 @@
 					<td class="center">{sessions.LOGIN_TIME}</td>
 					{% EVENT ucp_profile_autologin_keys_tbody_mark_before %}
 					<td class="center mark"><input type="checkbox" name="keys[]" value="{sessions.KEY}" id="{sessions.KEY}" /></td>
-				{% EVENT ucp_profile_autologin_keys_tbody_mark_after %}
+					{% EVENT ucp_profile_autologin_keys_tbody_mark_after %}
 				</tr>
 			<!-- BEGINELSE -->
-<tr><td colspan="{{ definition.COLSPAN }}" class="bg1" style="text-align: center">{L_PROFILE_NO_AUTOLOGIN_KEYS}</td></tr>
+				<tr><td colspan="{{ definition.COLSPAN }}" class="bg1" style="text-align: center">{L_PROFILE_NO_AUTOLOGIN_KEYS}</td></tr>
 			<!-- END sessions -->
 			</tbody>
 		</table>
