@@ -335,7 +335,7 @@ dd.option {
 }
 
 .search .postbody {
-	width: 68%
+	width: 68%;
 }
 
 /*padding */
@@ -560,7 +560,8 @@ blockquote cite:before, .uncited:before {
 	padding-right: 5px;
 }
 
-blockquote cite > div {
+/* von 3.3.0 auf 3.3.1 geändert, vorher: blockquote cite > div*/
+blockquote cite > span {
 	float: right;
 	font-weight: normal;
 }
@@ -591,6 +592,7 @@ blockquote cite > div {
 
 blockquote .codebox {
 	margin-left: 0;
+	overflow-y: hidden;
 }
 
 .codebox code {
